@@ -5,8 +5,8 @@ const cors = require('cors');
 import 'ts-mongoose/plugin';
 import { Request, Response } from 'express';
 
-const port = process.env.PORT || 4040;
-
+const port = process.env.PORT || 4041;
+const connectionString = process.env.MONGODB
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -19,6 +19,14 @@ app.get("/", (req: Request, res: Response) => {
     res.json({ message: "Hello ;)" });
 });
 
-try {
-    app.listen(port, () => console.log(`Server listening at port ${port}`));
-} catch(err) { console.log(err);}
+const categoryRoutes = require('./routes/category.route');
+app.use(categoryRoutes);
+
+mongoose
+    .connect(connectionString, { useUnifiedTopology: true, useNewUrlParser: true })
+    .then((result: any) => {
+        app.listen(port, () => console.log(`Server listening at port ${port}`));
+    })
+    .catch((err: Error) => {
+        console.log(err);
+    });
