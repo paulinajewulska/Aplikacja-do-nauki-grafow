@@ -4,8 +4,7 @@ import { db, CategoryDoc } from "../models";
 const Category: mongoose.Model<CategoryDoc> = db.category;
 
 const getAllCategories = (req: Request, res: Response) => {
-
-    Category.find()
+    Category.find().select('-topics')
         .then(categories =>   res.json(categories))
         .catch(err => res.status(400).send("Categories don't exits"));
 }
