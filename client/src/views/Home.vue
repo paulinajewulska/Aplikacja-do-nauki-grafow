@@ -1,12 +1,18 @@
 <template>
-  <h1>Hello :D</h1>
+  <div>
+    <app-navigation></app-navigation>
+  </div>
 </template>
 
 <script>
+const Navigation = () => import("@/components/Navigation");
+
 export default {
-  name: "Home"
+  name: "Home",
+  components: {
+    AppNavigation: Navigation
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

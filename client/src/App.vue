@@ -5,4 +5,8 @@
 </template>
 
 <style lang="scss">
+@import "./style/main.scss";
+body {
+  background-color: $light;
+}
 </style>
