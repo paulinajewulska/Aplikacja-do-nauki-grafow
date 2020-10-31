@@ -6,7 +6,18 @@ const Category: mongoose.Model<CategoryDoc> = db.category;
 const getAllCategories = (req: Request, res: Response) => {
     Category.find().select('-topics')
         .then(categories =>   res.json(categories))
-        .catch(err => res.status(400).send("Categories don't exits"));
+        .catch(err => res.status(400).send("Categories don't exist"));
 }
 
-export {getAllCategories};
+const getAllTopicsInCategory = (req: Request, res: Response) => {
+    const category = req.params.category;
+    if(category) {
+        Category.find({url: category.toLowerCase()}).select('topics')
+            .then(categories =>   res.json(categories))
+            .catch(err => res.status(400).send("Categories don't exist."));
+    } else {
+        res.status(400).send("Category doesn't exist.")
+    }
+}
+
+export {getAllCategories, getAllTopicsInCategory};

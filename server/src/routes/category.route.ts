@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-import { getAllCategories } from "../controllers/category.controller";
+import { getAllCategories, getAllTopicsInCategory } from "../controllers/category.controller";
 
-router.get('/app/category', getAllCategories);
+router.get('/app/categories/:category', getAllTopicsInCategory);
+router.get('/app/categories', getAllCategories);
 
 module.exports = router;
