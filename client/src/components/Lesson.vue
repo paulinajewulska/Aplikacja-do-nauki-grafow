@@ -4,7 +4,7 @@
       <p>{{ name }}</p>
     </div>
     <div class="lesson__bottom">
-      <router-link :to="url">Link </router-link>
+      <router-link :to="url" append>Link</router-link>
     </div>
   </div>
 </template>

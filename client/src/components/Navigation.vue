@@ -14,7 +14,7 @@
       class="nav__list-wrapper"
     >
       <div v-for="item of navigationList" :key="item.id" class="nav__list">
-        <router-link class="nav__list-item" :to="item.url">
+        <router-link class="nav__list-item" :to="getUrl(item.url)">
           {{ item.name }}
         </router-link>
       </div>
@@ -48,9 +48,9 @@ export default {
         this.error = err.toString();
       } finally {
         this.loading = false;
-        console.log(this.getNavigationList);
       }
-    }
+    },
+    getUrl: url => `/${url}`
   },
   created() {
     this.fetchData();
