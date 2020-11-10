@@ -1,0 +1,48 @@
+import { Vertex } from './Vertex';
+
+class Graph {
+    private _adjList: Vertex[];
+
+    get vertexes(): Vertex[] {
+        return this._adjList;
+    }
+
+    set vertexes(v: Vertex[]) {
+        this._adjList = v;
+    }
+
+    constructor(adjList: Vertex[] = []) {
+        this._adjList = adjList;
+    }
+
+    addVertex(vertex: Vertex = null) {
+        if (!vertex) { throw `Vertex not provided.`; }
+        if (this._adjList.some(v => v.id === vertex.id)) {
+            throw `Edge ${vertex} already exists.`;
+        }
+        this._adjList.push(vertex);
+    }
+
+    removeVertex(id: number = null) {
+        if(!id) { throw `Vertex id not provided.`; }
+        if (!this._adjList.some(v => v.id === id)) {
+            throw `Vertex with id: ${id} doesn't exist.`;
+        }
+        // delete vertex
+        this._adjList = this._adjList.filter(v => v.id !== id);
+
+        //  delete all edges connected to this vertex
+        for(const v of this._adjList) {
+            for(const e of v.edges) {
+                if (e.vertexTo === id) {
+                    try {
+                        v.removeEdge(id);
+                    } catch (err) { console.log(err); }
+                }
+            }
+        }
+    }
+
+}
+
+export { Graph };
