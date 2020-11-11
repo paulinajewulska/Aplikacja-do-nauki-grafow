@@ -1,5 +1,5 @@
 import { createSchema, Type, typedModel, ExtractDoc } from 'ts-mongoose';
-import { TopicSchema } from "./topic.model";
+import { TopicSchema } from './topic.model';
 
 const CategorySchema = createSchema({
     name: Type.string({ required: true, unique: true }),

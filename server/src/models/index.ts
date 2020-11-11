@@ -1,7 +1,9 @@
-import { Category, CategoryDoc } from "./category.model";
+import { Category, CategoryDoc } from './category.model';
 import { Model } from 'mongoose';
 
-interface Database { category: Model<CategoryDoc>; }
+interface Database {
+    category: Model<CategoryDoc>;
+}
 
 const db: Database = { category: Category };
 
