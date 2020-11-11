@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "build"
+    "outDir": "build",
+    "module": "commonjs",
+    "sourceMap": true
   }
 }
