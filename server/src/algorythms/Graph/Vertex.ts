@@ -16,18 +16,24 @@ class Vertex {
         return this._id;
     }
 
-    addEdge(edge: Edge) {
-        if (!edge) { throw `Edge not provided.`; }
+    addEdge(edge: Edge): void {
+        if (!edge) {
+            throw `Edge not provided.`;
+        }
         if (this._edges.some(e => e._vertexTo === edge.vertexTo)) {
             throw `Edge ${edge} already exist.`;
         }
-        if( edge.vertexTo == this._id) { throw `Cannot add edge to the same vertex`; }
+        if (edge.vertexTo == this._id) {
+            throw `Cannot add edge to the same vertex`;
+        }
 
         this._edges.push(edge);
     }
 
-    removeEdge(edge: number = null) {
-        if (!edge) { throw `Edge not provided.`; }
+    removeEdge(edge: number = null): void {
+        if (!edge) {
+            throw `Edge not provided.`;
+        }
         if (!this._edges.some(e => e._vertexTo === edge)) {
             throw `Edge ${edge} doesn't exist.`;
         }
@@ -40,4 +46,4 @@ class Vertex {
     }
 }
 
-export {Vertex}
+export { Vertex };

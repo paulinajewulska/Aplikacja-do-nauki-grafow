@@ -3,7 +3,7 @@ class Edge {
     readonly _vertexTo: number = null;
 
     get vertexTo(): number {
-        return  this._vertexTo;
+        return this._vertexTo;
     }
 
     constructor(vertexTo: number) {
@@ -11,4 +11,4 @@ class Edge {
     }
 }
 
-export { Edge }
+export { Edge };
