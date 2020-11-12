@@ -1,0 +1,91 @@
+name: 'Build and deploy on push'
+
+on:
+  push:
+    branches:
+      - workflows
+
+env:
+  PM2_HOME: ${{ secrets.PM2_HOME }}
+  MONGODB: ${{ secrets.MONGODB }}
+  PORT: ${{ secrets.PORT }}
+  VUE_APP_SERVER_URI: ${{ secrets.VUE_APP_SERVER_URI }}
+
+jobs:
+  update-repo:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+  server:
+    needs: [setup-workspace, server-tests]
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy
+        run: |
+          pm2 stop graphs
+          rm -rf ${{ secrets.SERVER_DEPLOY_DIR }}/*
+          cp -r ../server/{build,node_modules,public} ${{ secrets.SERVER_DEPLOY_DIR }}
+          pm2 start graphs --update-env
+        env:
+          NODE_ENV: production
+
+  test-client:
+    needs: [update-repo]
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Tests
+        run: |
+          npm ci
+          npm run test
+
+  client:
+    needs: [setup-workspace, update-repo]
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Build
+        run: |
+          npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy
+        run: |
+          rm -rf ${{ secrets.CLIENT_DEPLOY_DIR }}
+          cp -r dist/ ${{ secrets.CLIENT_DEPLOY_DIR }}
