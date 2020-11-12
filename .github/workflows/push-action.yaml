@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
   server:
-    needs: [setup-workspace, server-tests]
+    needs: [update-repo, test-server]
     runs-on: self-hosted
     defaults:
       run:
@@ -67,7 +67,7 @@ jobs:
           npm run test
 
   client:
-    needs: [setup-workspace, update-repo]
+    needs: [update-repo, test-client]
     runs-on: self-hosted
     defaults:
       run:
