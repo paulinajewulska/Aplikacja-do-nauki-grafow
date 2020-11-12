@@ -43,7 +43,7 @@ jobs:
         run: |
           pm2 stop graphs
           rm -rf ${{ secrets.SERVER_DEPLOY_DIR }}/*
-          cp -r ../server/{build,node_modules,public} ${{ secrets.SERVER_DEPLOY_DIR }}
+          cp -r ../server/{build,node_modules} ${{ secrets.SERVER_DEPLOY_DIR }}
           pm2 start graphs --update-env
         env:
           NODE_ENV: production
