@@ -27,9 +27,8 @@ mongoose
         useUnifiedTopology: true,
         useNewUrlParser: true
     })
-    .then(result => {
+    .then(() => {
         app.listen(port, () => console.log(`Server listening at port ${port}`));
-        app.listen(port, () => console.log(`${result}`));
     })
     .catch((err: Error) => {
         console.log(err);
