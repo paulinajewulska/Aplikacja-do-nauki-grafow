@@ -9,12 +9,17 @@ export default new Vuex.Store({
   state: {
     baseURL: process.env.VUE_APP_SERVER_URI,
     navigationList: [],
-    lessonsList: []
+    lessonsList: [],
+    //  canvas graph
+    isWeighted: false,
+    isDirected: false
   },
   getters: {
     getBaseURL: state => state.baseURL,
     getNavigationList: state => state.navigationList,
-    getLessonsList: state => state.lessonsList
+    getLessonsList: state => state.lessonsList,
+    isWeighted: state => state.isWeighted,
+    isDirected: state => state.isDirected
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -22,6 +27,12 @@ export default new Vuex.Store({
     },
     saveLessonsList(state, lessonsList) {
       state.lessonsList = lessonsList[0].topics;
+    },
+    toggleIsWeighted(state) {
+      state.isWeighted = !state.isWeighted;
+    },
+    toggleIsDirected(state) {
+      state.isDirected = !state.isDirected;
     }
   },
   actions: {

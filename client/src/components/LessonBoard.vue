@@ -58,11 +58,17 @@ export default {
   }
 
   &__left {
-    width: 40%;
-    background-color: $white;
-    margin: 2rem;
-    border-radius: $border-radius;
+    width: 35%;
     min-height: 50%;
+    margin: 2rem 1rem 2rem 2rem;
+    background-color: $white;
+    border-radius: $border-radius;
+  }
+
+  &__canvas {
+    width: calc(65% - 6rem);
+    height: calc(100vh - 5rem);
+    margin: 2rem 2rem 2rem 1rem;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="canvas">
     <app-canvas-aside />
     <app-canvas-board />
     <app-canvas-header />
@@ -21,4 +21,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "../../style/main.scss";
+
+.canvas {
+  display: grid;
+  grid-template-columns: 10% auto;
+  grid-template-rows: 10% auto;
+  width: 100%;
+  height: 100%;
+  background-color: $light;
+}
+</style>
