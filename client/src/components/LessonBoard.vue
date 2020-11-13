@@ -14,13 +14,21 @@
           <b-tab title="Code"><p>I'm the second tab</p></b-tab>
         </b-tabs>
       </div>
+      <div class="lesson__canvas">
+        <app-canvas />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Canvas from "./Canvas/Canvas";
+
 export default {
-  name: "Boards"
+  name: "Boards",
+  components: {
+    AppCanvas: Canvas
+  }
 };
 </script>
 
