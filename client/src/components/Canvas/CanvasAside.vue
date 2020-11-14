@@ -8,6 +8,9 @@
     >
       Dodaj węzeł
     </button>
+    <button type="button" class="btn my-2 btn-light" @click="deleteAll">
+      Usuń wszystko
+    </button>
   </div>
 </template>
 
@@ -20,7 +23,7 @@ export default {
     ...mapGetters(["addVertexOption"])
   },
   methods: {
-    ...mapMutations(["toggleAddVertexOption"])
+    ...mapMutations(["toggleAddVertexOption", "deleteAll"])
   }
 };
 </script>

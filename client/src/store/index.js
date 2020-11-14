@@ -1,8 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
 Vue.use(Vuex);
 
 import { BootstrapVue } from "bootstrap-vue";
+
 Vue.use(BootstrapVue);
 
 export default new Vuex.Store({
@@ -24,11 +26,16 @@ export default new Vuex.Store({
     isDirected: state => state.isDirected,
     vertexList: state => state.vertexList,
     addVertexOption: state => state.addVertexOption,
-    availableId: state =>
-      state.vertexList.reduce(
-        (max, v) => (v.id > max ? v.id : max),
-        state.vertexList[0].id
-      ) + 1,
+    availableId: state => {
+      if (state.vertexList.length) {
+        return (
+          state.vertexList.reduce(
+            (max, v) => (v.id > max ? v.id : max),
+            state.vertexList[0].id
+          ) + 1
+        );
+      } else return 0;
+    },
     vertexNumber: state => state.vertexList.length
   },
   mutations: {
@@ -49,6 +56,9 @@ export default new Vuex.Store({
     },
     toggleAddVertexOption(state) {
       state.addVertexOption = !state.addVertexOption;
+    },
+    deleteAll(state) {
+      state.vertexList = [];
     }
   },
   actions: {
