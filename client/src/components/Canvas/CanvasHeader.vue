@@ -2,7 +2,7 @@
   <div class="canvas-header">
     <button
       type="button"
-      class="btn btn-primary mx-2"
+      class="btn mx-2"
       :class="[isDirected ? 'btn-primary' : 'btn-light']"
       @click="toggleIsDirected"
     >

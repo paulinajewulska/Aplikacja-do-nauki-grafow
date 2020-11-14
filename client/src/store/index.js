@@ -13,11 +13,8 @@ export default new Vuex.Store({
     //  canvas graph
     isWeighted: false,
     isDirected: false,
-    vertexList: [
-      { id: 0, x: 50, y: 50 },
-      { id: 1, x: 150, y: 150 },
-      { id: 2, x: 250, y: 250 }
-    ]
+    vertexList: [{ id: 0, x: 50, y: 50 }],
+    addVertexOption: false
   },
   getters: {
     getBaseURL: state => state.baseURL,
@@ -25,7 +22,14 @@ export default new Vuex.Store({
     getLessonsList: state => state.lessonsList,
     isWeighted: state => state.isWeighted,
     isDirected: state => state.isDirected,
-    vertexList: state => state.vertexList
+    vertexList: state => state.vertexList,
+    addVertexOption: state => state.addVertexOption,
+    availableId: state =>
+      state.vertexList.reduce(
+        (max, v) => (v.id > max ? v.id : max),
+        state.vertexList[0].id
+      ) + 1,
+    vertexNumber: state => state.vertexList.length
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -39,6 +43,12 @@ export default new Vuex.Store({
     },
     toggleIsDirected(state) {
       state.isDirected = !state.isDirected;
+    },
+    addVertex(state, vertex) {
+      state.vertexList.push(vertex);
+    },
+    toggleAddVertexOption(state) {
+      state.addVertexOption = !state.addVertexOption;
     }
   },
   actions: {
@@ -64,6 +74,12 @@ export default new Vuex.Store({
       );
       const lessons = await response.json();
       commit("saveLessonsList", lessons);
+    },
+    addVertex: ({ commit, state }, payload) => {
+      if (state.vertexList.some(v => v.id === payload.vertex.id)) {
+        throw `Vertex with ${payload.vertex.id} id already exists.`;
+      }
+      commit("addVertex", payload.vertex);
     }
   }
 });

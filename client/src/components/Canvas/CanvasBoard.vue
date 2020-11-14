@@ -1,6 +1,10 @@
 <template>
   <div class="board">
-    <v-stage :config="configKonva">
+    <v-stage
+      ref="stage"
+      :config="configKonva"
+      @click="addVertexOption ? addNewVertex($event) : {}"
+    >
       <v-layer>
         <app-canvas-vertex
           v-for="item in vertexList"
@@ -13,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import CanvasVertex from "@/components/CanvasElements/CanvasVertex";
 
 export default {
@@ -28,10 +32,28 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["vertexList"])
+    ...mapGetters([
+      "vertexList",
+      "addVertexOption",
+      "availableId",
+      "vertexNumber"
+    ])
   },
   components: {
     AppCanvasVertex: CanvasVertex
+  },
+  methods: {
+    ...mapActions(["addVertex"]),
+    addNewVertex(e) {
+      if (this.vertexNumber >= 5) {
+        console.log("Limit: 5 ");
+      } else {
+        const stage = e.target.getStage();
+        const pos = stage.getPointerPosition();
+        const newVertex = { x: pos.x, y: pos.y, id: this.availableId };
+        this.addVertex({ vertex: newVertex });
+      }
+    }
   }
 };
 </script>
