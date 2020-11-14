@@ -50,7 +50,7 @@ export default {
       align-content: flex-start;
       align-items: flex-start;
       justify-content: flex-start;
-      width: calc(80vw - 1rem);
+      width: calc(85vw - 1rem);
       height: calc(100vh - 1rem);
       border-radius: $border-radius;
       background-color: $pink;

@@ -12,14 +12,20 @@ export default new Vuex.Store({
     lessonsList: [],
     //  canvas graph
     isWeighted: false,
-    isDirected: false
+    isDirected: false,
+    vertexList: [
+      { id: 0, x: 50, y: 50 },
+      { id: 1, x: 150, y: 150 },
+      { id: 2, x: 250, y: 250 }
+    ]
   },
   getters: {
     getBaseURL: state => state.baseURL,
     getNavigationList: state => state.navigationList,
     getLessonsList: state => state.lessonsList,
     isWeighted: state => state.isWeighted,
-    isDirected: state => state.isDirected
+    isDirected: state => state.isDirected,
+    vertexList: state => state.vertexList
   },
   mutations: {
     saveNavigationList(state, navigationList) {
