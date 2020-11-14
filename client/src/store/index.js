@@ -16,7 +16,8 @@ export default new Vuex.Store({
     isWeighted: false,
     isDirected: false,
     vertexList: [{ id: 0, x: 50, y: 50 }],
-    addVertexOption: false
+    addVertexOption: false,
+    deleteVertexOption: false
   },
   getters: {
     getBaseURL: state => state.baseURL,
@@ -36,7 +37,8 @@ export default new Vuex.Store({
         );
       } else return 0;
     },
-    vertexNumber: state => state.vertexList.length
+    vertexNumber: state => state.vertexList.length,
+    deleteVertexOption: state => state.deleteVertexOption
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -55,9 +57,27 @@ export default new Vuex.Store({
       state.vertexList.push(vertex);
     },
     toggleAddVertexOption(state) {
+      if (state.deleteVertexOption) {
+        state.deleteVertexOption = false;
+      }
       state.addVertexOption = !state.addVertexOption;
     },
+    deleteVertex(state, id) {
+      state.vertexList.splice(
+        state.vertexList.findIndex(v => v.id === id),
+        1
+      );
+    },
+    toggleDeleteVertexOption(state) {
+      if (state.addVertexOption) {
+        state.addVertexOption = false;
+      }
+      state.deleteVertexOption = !state.deleteVertexOption;
+    },
     deleteAll(state) {
+      if (state.deleteVertexOption) {
+        state.deleteVertexOption = false;
+      }
       state.vertexList = [];
     }
   },
@@ -90,6 +110,12 @@ export default new Vuex.Store({
         throw `Vertex with ${payload.vertex.id} id already exists.`;
       }
       commit("addVertex", payload.vertex);
+    },
+    deleteVertex: ({ commit, state }, payload) => {
+      if (!state.vertexList.some(v => v.id === payload.vertex.id)) {
+        throw `Vertex with ${payload.vertex.id} id does not exist.`;
+      }
+      commit("removeVertex", payload.id);
     }
   }
 });

@@ -11,10 +11,13 @@
       stroke: 'black',
       strokeWidth: 2
     }"
+    @click="removeVertex"
   ></v-circle>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "CanvasVertex",
   data() {
@@ -27,6 +30,18 @@ export default {
     vertex: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    ...mapGetters(["vertexNumber"])
+  },
+  methods: {
+    ...mapMutations(["deleteVertex", "toggleDeleteVertexOption"]),
+    removeVertex(e) {
+      this.deleteVertex(e.target.id());
+      if (!this.vertexNumber) {
+        this.toggleDeleteVertexOption();
+      }
     }
   }
 };

@@ -8,6 +8,14 @@
     >
       Dodaj węzeł
     </button>
+    <button
+      type="button"
+      class="btn my-2"
+      :class="[deleteVertexOption ? 'btn-primary' : 'btn-light']"
+      @click="toggleDeleteVertexOption"
+    >
+      Usuń węzęł
+    </button>
     <button type="button" class="btn my-2 btn-light" @click="deleteAll">
       Usuń wszystko
     </button>
@@ -20,10 +28,14 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "CanvasAside",
   computed: {
-    ...mapGetters(["addVertexOption"])
+    ...mapGetters(["addVertexOption", "deleteVertexOption"])
   },
   methods: {
-    ...mapMutations(["toggleAddVertexOption", "deleteAll"])
+    ...mapMutations([
+      "toggleAddVertexOption",
+      "deleteAll",
+      "toggleDeleteVertexOption"
+    ])
   }
 };
 </script>
