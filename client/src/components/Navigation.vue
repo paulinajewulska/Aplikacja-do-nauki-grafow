@@ -95,7 +95,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 20vw;
+    width: 15vw;
     height: 100vh;
 
     &__list {

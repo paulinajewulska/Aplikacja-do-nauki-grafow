@@ -14,13 +14,21 @@
           <b-tab title="Code"><p>I'm the second tab</p></b-tab>
         </b-tabs>
       </div>
+      <div class="lesson__canvas">
+        <app-canvas />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Canvas from "./Canvas/Canvas";
+
 export default {
-  name: "Boards"
+  name: "Boards",
+  components: {
+    AppCanvas: Canvas
+  }
 };
 </script>
 
@@ -42,7 +50,7 @@ export default {
       align-content: flex-start;
       align-items: flex-start;
       justify-content: flex-start;
-      width: calc(80vw - 1rem);
+      width: calc(85vw - 1rem);
       height: calc(100vh - 1rem);
       border-radius: $border-radius;
       background-color: $pink;
@@ -50,11 +58,17 @@ export default {
   }
 
   &__left {
-    width: 40%;
-    background-color: $white;
-    margin: 2rem;
-    border-radius: $border-radius;
+    width: 35%;
     min-height: 50%;
+    margin: 2rem 1rem 2rem 2rem;
+    background-color: $white;
+    border-radius: $border-radius;
+  }
+
+  &__canvas {
+    width: calc(65% - 6rem);
+    height: calc(100vh - 5rem);
+    margin: 2rem 2rem 2rem 1rem;
   }
 }
 </style>

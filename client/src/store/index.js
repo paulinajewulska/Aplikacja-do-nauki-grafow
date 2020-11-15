@@ -1,20 +1,44 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
 Vue.use(Vuex);
 
 import { BootstrapVue } from "bootstrap-vue";
+
 Vue.use(BootstrapVue);
 
 export default new Vuex.Store({
   state: {
     baseURL: process.env.VUE_APP_SERVER_URI,
     navigationList: [],
-    lessonsList: []
+    lessonsList: [],
+    //  canvas graph
+    isWeighted: false,
+    isDirected: false,
+    vertexList: [{ id: 0, x: 50, y: 50 }],
+    addVertexOption: false,
+    deleteVertexOption: false
   },
   getters: {
     getBaseURL: state => state.baseURL,
     getNavigationList: state => state.navigationList,
-    getLessonsList: state => state.lessonsList
+    getLessonsList: state => state.lessonsList,
+    isWeighted: state => state.isWeighted,
+    isDirected: state => state.isDirected,
+    vertexList: state => state.vertexList,
+    addVertexOption: state => state.addVertexOption,
+    availableId: state => {
+      if (state.vertexList.length) {
+        return (
+          state.vertexList.reduce(
+            (max, v) => (v.id > max ? v.id : max),
+            state.vertexList[0].id
+          ) + 1
+        );
+      } else return 0;
+    },
+    vertexNumber: state => state.vertexList.length,
+    deleteVertexOption: state => state.deleteVertexOption
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -22,6 +46,39 @@ export default new Vuex.Store({
     },
     saveLessonsList(state, lessonsList) {
       state.lessonsList = lessonsList[0].topics;
+    },
+    toggleIsWeighted(state) {
+      state.isWeighted = !state.isWeighted;
+    },
+    toggleIsDirected(state) {
+      state.isDirected = !state.isDirected;
+    },
+    addVertex(state, vertex) {
+      state.vertexList.push(vertex);
+    },
+    toggleAddVertexOption(state) {
+      if (state.deleteVertexOption) {
+        state.deleteVertexOption = false;
+      }
+      state.addVertexOption = !state.addVertexOption;
+    },
+    deleteVertex(state, id) {
+      state.vertexList.splice(
+        state.vertexList.findIndex(v => v.id === id),
+        1
+      );
+    },
+    toggleDeleteVertexOption(state) {
+      if (state.addVertexOption) {
+        state.addVertexOption = false;
+      }
+      state.deleteVertexOption = !state.deleteVertexOption;
+    },
+    deleteAll(state) {
+      if (state.deleteVertexOption) {
+        state.deleteVertexOption = false;
+      }
+      state.vertexList = [];
     }
   },
   actions: {
@@ -47,6 +104,18 @@ export default new Vuex.Store({
       );
       const lessons = await response.json();
       commit("saveLessonsList", lessons);
+    },
+    addVertex: ({ commit, state }, payload) => {
+      if (state.vertexList.some(v => v.id === payload.vertex.id)) {
+        throw `Vertex with ${payload.vertex.id} id already exists.`;
+      }
+      commit("addVertex", payload.vertex);
+    },
+    deleteVertex: ({ commit, state }, payload) => {
+      if (!state.vertexList.some(v => v.id === payload.vertex.id)) {
+        throw `Vertex with ${payload.vertex.id} id does not exist.`;
+      }
+      commit("removeVertex", payload.id);
     }
   }
 });
