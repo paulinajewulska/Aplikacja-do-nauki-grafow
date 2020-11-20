@@ -2,13 +2,33 @@
 $white: #fff;
 $black: #1e1f23;
 $gray: #9c9d9d;
-$pink: #dfe0f2;
+$yellow: #ffd73c;
+$light-yellow: #ffe168;
+$blue: #aff4f9;
+$light-blue: #c6ede3;
+$purple: #e3c7ff;
+$green: #baf5c0;
 
+// padding
+$padding-component-mobile: 1rem;
+$padding-component: 2rem;
+
+// margin
+$margin-mobile: 1rem;
+$margin-desktop: .5rem;
+
+// border
+$border-radius: 15px;
+
+// font size
+$font-size-header-mobile: 1.5rem;
+$font-size: .9rem;
+
+// variables
 $light: $white;
 $dark: $black;
 $font-primary: $black;
 $font-secondary: $gray;
-$hover: $pink;
 
-$padding-component: 2rem;
-$border-radius: 20px;
+// Navigation
+$navigation-width: 12.5vw;

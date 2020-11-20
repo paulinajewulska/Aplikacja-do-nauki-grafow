@@ -21,7 +21,7 @@ export default new Vuex.Store({
   },
   getters: {
     getBaseURL: state => state.baseURL,
-    getNavigationList: state => state.navigationList,
+    navigationList: state => state.navigationList,
     getLessonsList: state => state.lessonsList,
     isWeighted: state => state.isWeighted,
     isDirected: state => state.isDirected,

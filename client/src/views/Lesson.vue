@@ -6,8 +6,8 @@
 </template>
 
 <script>
-const Navigation = () => import("../components/Navigation");
-const LessonBoard = () => import("../components/LessonBoard");
+const Navigation = () => import("@/components/Navigation/Navigation");
+const LessonBoard = () => import("@/components/LessonBoard");
 
 export default {
   name: "Category",

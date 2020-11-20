@@ -4,3 +4,7 @@
   grid-row-start: $row-start;
   grid-row-end: $row-end;
 }
+
+@mixin shadow($color: $gray) {
+  box-shadow: 0 24px 48px -12px rgba($color, 0.4);
+}
