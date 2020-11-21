@@ -54,14 +54,14 @@ export default {
   }
 
   &__button {
-    @include shadow($light-blue);
+    @include shadow($yellow);
     display: flex;
     justify-content: center;
     align-items: center;
     width: 20%;
     height: 100%;
     border-radius: $border-radius;
-    background-color: $light-blue;
+    background-color: $yellow;
   }
 
   @include media-breakpoint-up(lg) {
