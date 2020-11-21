@@ -1,9 +1,9 @@
 import { createSchema, Type } from 'ts-mongoose';
 
-const TopicSchema = createSchema({
+const LessonSchema = createSchema({
     name: Type.string({ required: true, unique: true }),
     description: Type.string({ required: true }),
     url: Type.string({ required: true, unique: true })
 });
 
-export { TopicSchema };
+export { LessonSchema };

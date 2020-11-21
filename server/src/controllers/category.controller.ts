@@ -1,25 +1,26 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import { db, CategoryDoc } from '../models';
+
 const Category: mongoose.Model<CategoryDoc> = db.category;
 
-const getAllCategories = (req: Request, res: Response): void => {
+const getCategories = (req: Request, res: Response): void => {
     Category.find()
-        .select('-topics')
+        .select('-lessons')
         .then(categories => res.json(categories))
         .catch(err => res.status(400).send(`Categories don't exist - ${err}`));
 };
 
-const getAllTopicsInCategory = (req: Request, res: Response): void => {
+const getLessonsInCategory = (req: Request, res: Response): void => {
     const category = req.params.category;
     if (category) {
         Category.find({ url: category.toLowerCase() })
-            .select('topics')
+            .select(['lessons.name', 'lessons.url'])
             .then(categories => res.json(categories))
-            .catch(err => res.status(400).send(`Categories don't exist. - ${err}`));
+            .catch(err => res.status(400).send(`Lessons don't exist. - ${err}`));
     } else {
-        res.status(400).send("Category doesn't exist.");
+        res.status(400).send("Lessons doesn't exist.");
     }
 };
 
-export { getAllCategories, getAllTopicsInCategory };
+export { getCategories, getLessonsInCategory };

@@ -45,7 +45,7 @@ export default new Vuex.Store({
       state.navigationList = navigationList;
     },
     saveLessonsList(state, lessonsList) {
-      state.lessonsList = lessonsList[0].topics;
+      state.lessonsList = lessonsList[0].lessons;
     },
     toggleIsWeighted(state) {
       state.isWeighted = !state.isWeighted;
