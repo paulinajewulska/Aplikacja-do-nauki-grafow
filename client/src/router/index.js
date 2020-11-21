@@ -12,12 +12,12 @@ const routes = [
   {
     path: "/:category",
     component: () => import("@/views/Category")
-  }
+  },
   // TODO: add 404 page
-  // {
-  //   path: "/:category/:lesson",
-  //   component: () => import("@/views/Lesson.vue")
-  // }
+  {
+    path: "/:category/:lesson",
+    component: () => import("@/views/Lesson")
+  }
 ];
 
 const router = new VueRouter({

@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import CanvasVertex from "@/components/CanvasElements/CanvasVertex";
+import CanvasVertex from "@/components/Canvas/CanvasElements/CanvasVertex";
 
 export default {
   name: "CanvasBoard",

@@ -1,17 +1,3 @@
-.left-wrapper {
-  padding: 1rem;
-  width: 100%;
-  min-height: fit-content;
-
-  @include media-breakpoint-up(lg) {
-    position: absolute;
-    top: 0;
-    left: 15vw;
-    height: 100vh;
-    width: 85vw;
-  }
-}
-
 .board {
   display: flex;
   flex-wrap: wrap;

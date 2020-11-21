@@ -15,7 +15,7 @@ export default new Vuex.Store({
     //  canvas graph
     isWeighted: false,
     isDirected: false,
-    vertexList: [{ id: 0, x: 50, y: 50 }],
+    vertexList: [],
     addVertexOption: false,
     deleteVertexOption: false
   },
