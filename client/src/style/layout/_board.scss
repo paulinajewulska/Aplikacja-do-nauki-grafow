@@ -11,3 +11,19 @@
     width: 85vw;
   }
 }
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100vw - 2 * #{$margin-mobile});
+  margin: $margin-mobile;
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    top: 0;
+    left: calc(#{$navigation-width} + #{$margin-mobile});
+    width: calc(100vw - #{$navigation-width} - 3 * #{$margin-mobile});
+    min-height: calc(100vh - 2 * #{$margin-mobile});
+    padding: $padding-component-mobile;
+  }
+}

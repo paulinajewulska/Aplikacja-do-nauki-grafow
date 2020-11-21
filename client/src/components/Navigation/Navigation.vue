@@ -102,11 +102,7 @@ export default {
       &-item {
         margin: $margin-desktop 0;
         padding: $padding-component/4;
-        font-size: $font-size;
-
-        &:first-child {
-          margin-top: 0;
-        }
+        font-size: $navigation-font-size;
 
         &:hover {
           @include shadow($light-yellow);
