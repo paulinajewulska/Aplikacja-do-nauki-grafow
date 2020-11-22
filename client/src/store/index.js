@@ -12,6 +12,7 @@ export default new Vuex.Store({
     baseURL: process.env.VUE_APP_SERVER_URI,
     navigationList: [],
     lessonsList: [],
+    lesson: {},
     //  canvas graph
     isWeighted: false,
     isDirected: false,
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     getBaseURL: state => state.baseURL,
     navigationList: state => state.navigationList,
     getLessonsList: state => state.lessonsList,
+    lesson: state => state.lesson,
     isWeighted: state => state.isWeighted,
     isDirected: state => state.isDirected,
     vertexList: state => state.vertexList,
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     },
     saveLessonsList(state, lessonsList) {
       state.lessonsList = lessonsList[0].lessons;
+    },
+    saveLesson(state, lesson) {
+      state.lesson = lesson;
     },
     toggleIsWeighted(state) {
       state.isWeighted = !state.isWeighted;
@@ -104,6 +109,19 @@ export default new Vuex.Store({
       );
       const lessons = await response.json();
       commit("saveLessonsList", lessons);
+    },
+    loadLesson: async ({ commit, state }, payload) => {
+      const response = await fetch(
+        `${state.baseURL}/categories/${payload.category}/${payload.lesson}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          }
+        }
+      );
+      const lesson = await response.json();
+      commit("saveLesson", lesson);
     },
     addVertex: ({ commit, state }, payload) => {
       if (state.vertexList.some(v => v.id === payload.vertex.id)) {

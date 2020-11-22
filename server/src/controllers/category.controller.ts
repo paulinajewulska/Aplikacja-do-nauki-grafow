@@ -4,6 +4,7 @@ import { db, CategoryDoc } from '../models';
 
 const Category: mongoose.Model<CategoryDoc> = db.category;
 
+// TODO: refactor
 const getCategories = (req: Request, res: Response): void => {
     Category.find()
         .select('-lessons')
@@ -16,11 +17,27 @@ const getLessonsInCategory = (req: Request, res: Response): void => {
     if (category) {
         Category.find({ url: category.toLowerCase() })
             .select(['lessons.name', 'lessons.url'])
-            .then(categories => res.json(categories))
+            .then(lessons => res.json(lessons))
             .catch(err => res.status(400).send(`Lessons don't exist. - ${err}`));
     } else {
-        res.status(400).send("Lessons doesn't exist.");
+        res.status(400).send("Lessons don't exist.");
     }
 };
 
-export { getCategories, getLessonsInCategory };
+const getLesson = (req: Request, res: Response): void => {
+    const category = req.params.category;
+    const lesson = req.params.lesson;
+
+    if (category && lesson) {
+        Category.find({ url: category.toLowerCase() })
+            .select(['lessons.url', 'lessons.description', 'lessons.pseudocode', 'lessons.tip'])
+            .then(lessons => {
+                res.json(lessons[0].lessons.find(ls => ls.url === lesson));
+            })
+            .catch(err => res.status(400).send(`Lesson doesn't exist. - ${err}`));
+    } else {
+        res.status(400).send("Lesson doesn't exist.");
+    }
+};
+
+export { getCategories, getLessonsInCategory, getLesson };

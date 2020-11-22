@@ -1,24 +1,42 @@
 <template>
   <div class="lesson">
-    <b-tabs content-class="mt-3" justified>
+    <b-tabs v-if="lesson" content-class="mt-3" justified>
       <b-tab title="Opis" active>
-        <p>{{ description }}</p>
+        <p>{{ lesson.description }}</p>
       </b-tab>
       <b-tab title="Pseudokod"
-        ><p>{{ pseudocode }}</p></b-tab
+        ><p>{{ lesson.pseudocode }}</p></b-tab
       >
     </b-tabs>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "LessonTabs",
-  data() {
-    return {
-      description: "I'm the first tab",
-      pseudocode: "I'm the second tab"
-    };
+  computed: {
+    ...mapGetters({ lesson: "lesson" })
+  },
+  methods: {
+    ...mapActions(["loadLesson"]),
+    fetchData() {
+      try {
+        this.loadLesson({
+          category: this.$route.params.category,
+          lesson: this.$route.params.lesson
+        });
+      } catch (err) {
+        console.log(err.toString());
+      }
+    }
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
   }
 };
 </script>
