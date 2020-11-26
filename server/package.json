@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node ./dist/server/app.js",
     "start-dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Paulina Jewulska",
   "license": "ISC",
@@ -25,12 +25,15 @@
     "@types/node": "^14.0.27"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.15",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "ts-jest": "^26.4.4",
     "ts-node": "^8.10.2"
   }
 }
