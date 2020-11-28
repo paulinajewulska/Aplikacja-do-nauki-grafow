@@ -2,6 +2,7 @@ import {Edge} from "./Edge";
 
 describe('Edge', () => {
     let obj;
+
     beforeEach(() => {
         obj = new Edge(11);
     });

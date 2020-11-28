@@ -1,4 +1,4 @@
-import { Edge } from './Edge';
+import {Edge} from './Edge';
 
 class Vertex {
     private _edges: Edge[];
@@ -16,6 +16,11 @@ class Vertex {
         return this._id;
     }
 
+    constructor(id: number = 0, edges: Edge[] = []) {
+        this._id = id;
+        this._edges = edges;
+    }
+
     addEdge(edge: Edge): void {
         if (!edge) {
             throw `Edge not provided.`;
@@ -24,7 +29,7 @@ class Vertex {
             throw `Edge ${edge} already exist.`;
         }
         if (edge.vertexTo == this._id) {
-            throw `Cannot add edge to the same vertex`;
+            throw `Cannot add edge to the same vertex.`;
         }
 
         this._edges.push(edge);
@@ -39,11 +44,6 @@ class Vertex {
         }
         this._edges = this._edges.filter(e => e._vertexTo !== edge);
     }
-
-    constructor(id: number = null, edges: Edge[] = []) {
-        this._id = id;
-        this._edges = edges;
-    }
 }
 
-export { Vertex };
+export {Vertex};
