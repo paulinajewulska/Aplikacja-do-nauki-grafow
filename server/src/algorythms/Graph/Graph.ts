@@ -1,4 +1,4 @@
-import { Vertex } from './Vertex';
+import {Vertex} from './Vertex';
 
 class Graph {
     private _adjList: Vertex[];
@@ -60,6 +60,45 @@ class Graph {
     isNullGraph(): boolean {
         return !this.getGraphSize();
     }
+
+    // graph representation
+    getAdjacencyMatrix() {
+        const adjListSize = this.getGraphOrder();
+        const getAdjMatrix = (rows, cols) => new Array(cols).fill(0)
+            .map((o, i) => new Array(rows).fill(0));
+        const adjMatrix = getAdjMatrix(adjListSize, adjListSize);
+
+        for (const v of this.vertexes) {
+            for (const e of v.edges) {
+                // right now there is no directed or weighted graphs
+                adjMatrix[v.id][e.vertexTo] = 1;
+                adjMatrix[e.vertexTo][v.id] = 1;
+            }
+        }
+        return adjMatrix;
+    }
+
+    getAdjacencyList() {
+        return this.vertexes;
+    }
+
+    getIncidenceMatrix() {
+        const adjListRows = this.getGraphOrder();
+        const adjListCols = this.getGraphSize();
+        const getIncidenceMatrix = (rows, cols) => new Array(cols).fill(0)
+            .map((o, i) => new Array(rows).fill(0));
+        const adjMatrix = getIncidenceMatrix(adjListRows, adjListCols);
+
+        for (const v of this.vertexes) {
+            for (const e of v.edges) {
+                // right now there is no directed or weighted graphs
+                adjMatrix[v.id][e.id] = 1;
+            }
+        }
+        return adjMatrix;
+    }
+
+
 }
 
-export { Graph };
+export {Graph};
