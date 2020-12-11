@@ -27,10 +27,10 @@ export default {
 .canvas {
   position: relative;
   display: grid;
-  grid-template-columns: 10% auto;
-  grid-template-rows: 10% auto;
+  grid-template-columns: 10vh auto;
+  grid-template-rows: 10vh auto;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 6 * #{$margin-mobile});
   margin: $margin-mobile 0;
   background-color: $light;
   overflow: hidden;

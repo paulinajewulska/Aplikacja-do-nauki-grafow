@@ -7,10 +7,11 @@
       y: vertex.y,
       radius: radius,
       fill: '#9c9d9d',
-      draggable: true,
+      // draggable: true,
       stroke: 'black',
       strokeWidth: 2
     }"
+    class="vertex"
     @click="removeVertex"
   ></v-circle>
 </template>
@@ -33,11 +34,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["vertexNumber"])
+    ...mapGetters(["vertexNumber", "deleteVertexOption"])
   },
   methods: {
     ...mapMutations(["deleteVertex", "toggleDeleteVertexOption"]),
     removeVertex(e) {
+      if (!this.deleteVertexOption) return;
       this.deleteVertex(e.target.id());
       if (!this.vertexNumber) {
         this.toggleDeleteVertexOption();
@@ -47,4 +49,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "../../../style/main";
+
+.vertex {
+  z-index: 10;
+}
+</style>

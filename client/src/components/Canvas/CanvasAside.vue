@@ -16,6 +16,22 @@
     >
       Usuń węzęł
     </button>
+    <button
+      type="button"
+      class="btn my-2"
+      :class="[addEdgeOption ? 'btn-primary' : 'btn-light']"
+      @click="toggleAddEdgeOption"
+    >
+      Dodaj krawędź
+    </button>
+    <button
+      type="button"
+      class="btn my-2 "
+      :class="[removeEdgeOption ? 'btn-primary' : 'btn-light']"
+      @click="toggleDeleteEdgeOption"
+    >
+      Usuń krawędź
+    </button>
     <button type="button" class="btn my-2 btn-light" @click="deleteAll">
       Usuń wszystko
     </button>
@@ -25,17 +41,20 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 
+// TODO: refactor :(
 export default {
   name: "CanvasAside",
   computed: {
-    ...mapGetters(["addVertexOption", "deleteVertexOption"])
+    ...mapGetters(["addVertexOption", "deleteVertexOption"]),
+    ...mapGetters("edge", ["addEdgeOption", "removeEdgeOption"])
   },
   methods: {
     ...mapMutations([
       "toggleAddVertexOption",
       "deleteAll",
       "toggleDeleteVertexOption"
-    ])
+    ]),
+    ...mapMutations("edge", ["toggleAddEdgeOption", "toggleDeleteEdgeOption"])
   }
 };
 </script>
