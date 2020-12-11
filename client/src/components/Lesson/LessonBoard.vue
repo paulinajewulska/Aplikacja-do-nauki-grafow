@@ -9,12 +9,32 @@
 <script>
 import LessonTabs from "@/components/Lesson/LessonTabs";
 import Canvas from "@/components/Canvas/Canvas";
+import { mapActions } from "vuex";
 
 export default {
   name: "LessonBoard",
   components: {
     AppLessonTabs: LessonTabs,
     AppCanvas: Canvas
+  },
+  methods: {
+    ...mapActions(["setCurrentRoute"]),
+    fetchData() {
+      try {
+        this.setCurrentRoute({
+          category: this.$route.params.category,
+          lesson: this.$route.params.lesson
+        });
+      } catch (err) {
+        console.log(err.toString());
+      }
+    }
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: "fetchData"
   }
 };
 </script>

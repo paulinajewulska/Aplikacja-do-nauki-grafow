@@ -2,10 +2,11 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-
 import { BootstrapVue } from "bootstrap-vue";
 
 Vue.use(BootstrapVue);
+
+import edge from "./modules/edge";
 
 export default new Vuex.Store({
   state: {
@@ -18,7 +19,9 @@ export default new Vuex.Store({
     isDirected: false,
     vertexList: [],
     addVertexOption: false,
-    deleteVertexOption: false
+    deleteVertexOption: false,
+    categoryUrl: null,
+    lessonUrl: null
   },
   getters: {
     getBaseURL: state => state.baseURL,
@@ -29,7 +32,7 @@ export default new Vuex.Store({
     isDirected: state => state.isDirected,
     vertexList: state => state.vertexList,
     addVertexOption: state => state.addVertexOption,
-    availableId: state => {
+    availableVertexId: state => {
       if (state.vertexList.length) {
         return (
           state.vertexList.reduce(
@@ -40,7 +43,10 @@ export default new Vuex.Store({
       } else return 0;
     },
     vertexNumber: state => state.vertexList.length,
-    deleteVertexOption: state => state.deleteVertexOption
+    deleteVertexOption: state => state.deleteVertexOption,
+    categoryUrl: state => state.categoryUrl,
+    lessonUrl: state => state.lessonUrl,
+    getVertexByID: (state, id) => state.vertexList.find(v => v.id === id)
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -84,6 +90,12 @@ export default new Vuex.Store({
         state.deleteVertexOption = false;
       }
       state.vertexList = [];
+    },
+    saveCategoryUrl(state, category) {
+      state.categoryUrl = category;
+    },
+    saveLessonUrl(state, lesson) {
+      state.lessonUrl = lesson;
     }
   },
   actions: {
@@ -110,9 +122,16 @@ export default new Vuex.Store({
       const lessons = await response.json();
       commit("saveLessonsList", lessons);
     },
-    loadLesson: async ({ commit, state }, payload) => {
+    setCurrentRoute: async ({ commit }, payload) => {
+      const currentCategory = payload.category || null;
+      const currentLesson = payload.lesson || null;
+
+      commit("saveCategoryUrl", currentCategory);
+      commit("saveLessonUrl", currentLesson);
+    },
+    loadLesson: async ({ commit, state }) => {
       const response = await fetch(
-        `${state.baseURL}/categories/${payload.category}/${payload.lesson}`,
+        `${state.baseURL}/categories/${state.categoryUrl}/${state.lessonUrl}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -135,5 +154,6 @@ export default new Vuex.Store({
       }
       commit("removeVertex", payload.id);
     }
-  }
+  },
+  modules: { edge }
 });
