@@ -3,6 +3,7 @@
     <app-canvas-aside />
     <app-canvas-board />
     <app-canvas-header />
+    <app-canvas-result />
   </section>
 </template>
 
@@ -10,13 +11,15 @@
 import CanvasAside from "./CanvasAside";
 import CanvasBoard from "./CanvasBoard";
 import CanvasHeader from "./CanvasHeader";
+import CanvasResult from "./CanvasResult";
 
 export default {
   name: "Canvas",
   components: {
     AppCanvasAside: CanvasAside,
     AppCanvasBoard: CanvasBoard,
-    AppCanvasHeader: CanvasHeader
+    AppCanvasHeader: CanvasHeader,
+    AppCanvasResult: CanvasResult
   }
 };
 </script>
@@ -28,9 +31,9 @@ export default {
   position: relative;
   display: grid;
   grid-template-columns: 10vh auto;
-  grid-template-rows: 10vh auto;
+  grid-template-rows: 10vh auto 10vh;
   width: 100%;
-  height: calc(100vh - 6 * #{$margin-mobile});
+  height: calc(100vh - 4 * #{$margin-mobile});
   margin: $margin-mobile 0;
   background-color: $light;
   overflow: hidden;

@@ -35,8 +35,8 @@ export default {
   data() {
     return {
       configKonva: {
-        width: 600,
-        height: 600
+        width: 400,
+        height: 400
       },
       canDrawLine: false,
       currentEdge: {}

@@ -21,7 +21,8 @@ export default new Vuex.Store({
     addVertexOption: false,
     deleteVertexOption: false,
     categoryUrl: null,
-    lessonUrl: null
+    lessonUrl: null,
+    result: null
   },
   getters: {
     getBaseURL: state => state.baseURL,
@@ -46,7 +47,8 @@ export default new Vuex.Store({
     deleteVertexOption: state => state.deleteVertexOption,
     categoryUrl: state => state.categoryUrl,
     lessonUrl: state => state.lessonUrl,
-    getVertexByID: (state, id) => state.vertexList.find(v => v.id === id)
+    getVertexByID: (state, id) => state.vertexList.find(v => v.id === id),
+    result: state => state.result
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -96,7 +98,8 @@ export default new Vuex.Store({
     },
     saveLessonUrl(state, lesson) {
       state.lessonUrl = lesson;
-    }
+    },
+    saveResult: (state, result) => (state.result = result)
   },
   actions: {
     loadNavigationList: async ({ commit, state }) => {
@@ -153,6 +156,9 @@ export default new Vuex.Store({
         throw `Vertex with ${payload.vertex.id} id does not exist.`;
       }
       commit("removeVertex", payload.id);
+    },
+    saveResult: ({ commit }, payload) => {
+      commit("saveResult", payload.result);
     }
   },
   modules: { edge }
