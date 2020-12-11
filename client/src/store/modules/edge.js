@@ -37,12 +37,24 @@ const mutations = {
   },
   addEdge(state, edge) {
     state.edgeList.push(edge);
+  },
+  removeEdge(state, id) {
+    state.edgeList.splice(
+      state.edgeList.findIndex(e => e.id === id),
+      1
+    );
   }
 };
 
 const actions = {
   addEdge: ({ commit }, payload) => {
     commit("addEdge", payload.edge);
+  },
+  removeEdge: ({ commit, state }, payload) => {
+    if (!state.edgeList.some(v => v.id === payload.id)) {
+      throw `Edge with ${payload.id} id does not exist.`;
+    }
+    commit("removeEdge", payload.id);
   }
 };
 

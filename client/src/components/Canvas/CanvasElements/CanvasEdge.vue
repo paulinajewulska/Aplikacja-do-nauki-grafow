@@ -3,12 +3,16 @@
     :key="edge.id"
     :config="{
       stroke: 'black',
+      strokeWidth: 5,
       points: points
     }"
+    @click="removeClickedEdge"
   />
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "CanvasEdge",
   props: {
@@ -18,6 +22,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("edge", ["removeEdgeOption"]),
     points() {
       return [
         this.edge.start.x,
@@ -25,6 +30,13 @@ export default {
         this.edge.end.x,
         this.edge.end.y
       ];
+    }
+  },
+  methods: {
+    ...mapActions("edge", ["removeEdge"]),
+    removeClickedEdge() {
+      if (!this.removeEdgeOption) return;
+      this.removeEdge({ id: this.edge.id });
     }
   }
 };
