@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import { db, CategoryDoc } from '../models';
+import { getGraphFun } from '../algorythms/connectionMap';
+import { Graph } from '../algorythms/Graph/Graph';
 
 const Category: mongoose.Model<CategoryDoc> = db.category;
 
@@ -40,4 +42,15 @@ const getLesson = (req: Request, res: Response): void => {
     }
 };
 
-export { getCategories, getLessonsInCategory, getLesson };
+const getLessonSolution = (req: Request, res: Response): void => {
+    const { vertexes, category, lesson } = req.body;
+    try {
+        const graphFun: (Graph) => any = getGraphFun(category, lesson);
+        const result: number | boolean = graphFun(new Graph(vertexes));
+        res.json({ result });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+};
+
+export { getCategories, getLessonsInCategory, getLesson, getLessonSolution };

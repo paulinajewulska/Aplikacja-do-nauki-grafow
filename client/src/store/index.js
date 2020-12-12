@@ -107,8 +107,26 @@ export default new Vuex.Store({
       const lesson = await response.json();
       commit("saveLesson", lesson);
     },
-    saveResult: ({ commit }, payload) => {
-      commit("saveResult", payload.result);
+    loadSolution: async ({ commit, rootState }) => {
+      const vertexes = rootState.vertex.vertexes.map(v => ({
+        id: v.id,
+        edges: v.edges
+      }));
+      const category = rootState.categoryUrl;
+      const lesson = rootState.lessonUrl;
+      const response = await fetch(
+        `${rootState.baseURL}/categories/${category}/${lesson}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({ vertexes, category, lesson })
+        }
+      );
+      const res = await response.json();
+      commit("saveResult", res.result);
     }
   },
   modules: { edge, vertex }

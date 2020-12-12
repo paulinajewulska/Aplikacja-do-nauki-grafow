@@ -16,11 +16,14 @@
     >
       graf wagowy
     </button>
+    <button type="button" class="btn btn-primary mx-2" @click="loadSolution">
+      wynik
+    </button>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CanvasHeader",
@@ -28,7 +31,8 @@ export default {
     ...mapGetters(["isDirected", "isWeighted"])
   },
   methods: {
-    ...mapMutations(["toggleIsDirected", "toggleIsWeighted"])
+    ...mapMutations(["toggleIsDirected", "toggleIsWeighted"]),
+    ...mapActions(["loadSolution"])
   }
 };
 </script>
