@@ -12,12 +12,12 @@
       strokeWidth: 2
     }"
     class="vertex"
-    @click="removeVertex"
+    @click="removeClickedVertex"
   ></v-circle>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "CanvasVertex",
@@ -34,16 +34,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["vertexNumber", "deleteVertexOption"])
+    ...mapGetters("vertex", ["vertexesNumber", "removeVertexOption"])
   },
   methods: {
-    ...mapMutations(["deleteVertex", "toggleDeleteVertexOption"]),
-    removeVertex(e) {
-      if (!this.deleteVertexOption) return;
-      this.deleteVertex(e.target.id());
-      if (!this.vertexNumber) {
-        this.toggleDeleteVertexOption();
-      }
+    ...mapActions("vertex", ["removeVertex"]),
+    removeClickedVertex(e) {
+      if (!this.removeVertexOption) return;
+      this.removeVertex({ id: e.target.id() });
+      // if (!this.vertexesNumber) {
+      //   this.toggleRemoveVertexOption();
+      // }
+      // TODO: fix fix fix
     }
   }
 };

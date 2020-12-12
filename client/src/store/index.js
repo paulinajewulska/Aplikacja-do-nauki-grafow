@@ -7,6 +7,7 @@ import { BootstrapVue } from "bootstrap-vue";
 Vue.use(BootstrapVue);
 
 import edge from "./modules/edge";
+import vertex from "./modules/vertex";
 
 export default new Vuex.Store({
   state: {
@@ -17,9 +18,6 @@ export default new Vuex.Store({
     //  canvas graph
     isWeighted: false,
     isDirected: false,
-    vertexList: [],
-    addVertexOption: false,
-    deleteVertexOption: false,
     categoryUrl: null,
     lessonUrl: null,
     result: null
@@ -31,23 +29,8 @@ export default new Vuex.Store({
     lesson: state => state.lesson,
     isWeighted: state => state.isWeighted,
     isDirected: state => state.isDirected,
-    vertexList: state => state.vertexList,
-    addVertexOption: state => state.addVertexOption,
-    availableVertexId: state => {
-      if (state.vertexList.length) {
-        return (
-          state.vertexList.reduce(
-            (max, v) => (v.id > max ? v.id : max),
-            state.vertexList[0].id
-          ) + 1
-        );
-      } else return 0;
-    },
-    vertexNumber: state => state.vertexList.length,
-    deleteVertexOption: state => state.deleteVertexOption,
     categoryUrl: state => state.categoryUrl,
     lessonUrl: state => state.lessonUrl,
-    getVertexByID: (state, id) => state.vertexList.find(v => v.id === id),
     result: state => state.result
   },
   mutations: {
@@ -65,27 +48,6 @@ export default new Vuex.Store({
     },
     toggleIsDirected(state) {
       state.isDirected = !state.isDirected;
-    },
-    addVertex(state, vertex) {
-      state.vertexList.push(vertex);
-    },
-    toggleAddVertexOption(state) {
-      if (state.deleteVertexOption) {
-        state.deleteVertexOption = false;
-      }
-      state.addVertexOption = !state.addVertexOption;
-    },
-    deleteVertex(state, id) {
-      state.vertexList.splice(
-        state.vertexList.findIndex(v => v.id === id),
-        1
-      );
-    },
-    toggleDeleteVertexOption(state) {
-      if (state.addVertexOption) {
-        state.addVertexOption = false;
-      }
-      state.deleteVertexOption = !state.deleteVertexOption;
     },
     deleteAll(state) {
       if (state.deleteVertexOption) {
@@ -145,21 +107,9 @@ export default new Vuex.Store({
       const lesson = await response.json();
       commit("saveLesson", lesson);
     },
-    addVertex: ({ commit, state }, payload) => {
-      if (state.vertexList.some(v => v.id === payload.vertex.id)) {
-        throw `Vertex with ${payload.vertex.id} id already exists.`;
-      }
-      commit("addVertex", payload.vertex);
-    },
-    deleteVertex: ({ commit, state }, payload) => {
-      if (!state.vertexList.some(v => v.id === payload.vertex.id)) {
-        throw `Vertex with ${payload.vertex.id} id does not exist.`;
-      }
-      commit("removeVertex", payload.id);
-    },
     saveResult: ({ commit }, payload) => {
       commit("saveResult", payload.result);
     }
   },
-  modules: { edge }
+  modules: { edge, vertex }
 });

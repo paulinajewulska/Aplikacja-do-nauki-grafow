@@ -25,10 +25,10 @@ export default {
     ...mapGetters("edge", ["removeEdgeOption"]),
     points() {
       return [
-        this.edge.start.x,
-        this.edge.start.y,
-        this.edge.end.x,
-        this.edge.end.y
+        this.edge.points.start.x,
+        this.edge.points.start.y,
+        this.edge.points.end.x,
+        this.edge.points.end.y
       ];
     }
   },

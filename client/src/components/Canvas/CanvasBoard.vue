@@ -9,16 +9,8 @@
       @mousemove="handleMouseMove"
     >
       <v-layer>
-        <app-canvas-vertex
-          v-for="item of vertexList"
-          :vertex="item"
-          :key="item.id"
-        />
-        <app-canvas-edge
-          v-for="edge of edgeList"
-          :key="`edge-${edge.id}`"
-          :edge="edge"
-        />
+        <app-canvas-vertex v-for="v of vertexes" :vertex="v" :key="v.id" />
+        <app-canvas-edge v-for="e of edges" :key="`edge-${e.id}`" :edge="e" />
       </v-layer>
     </v-stage>
   </div>
@@ -43,20 +35,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "vertexList",
+    ...mapGetters("vertex", [
+      "vertexes",
       "addVertexOption",
-      "availableVertexId",
-      "vertexNumber"
+      "availableVertexId"
     ]),
-    ...mapGetters("edge", ["edgeList", "addEdgeOption", "availableEdgeId"])
+    ...mapGetters("edge", ["edges", "addEdgeOption", "availableEdgeId"])
   },
   components: {
     AppCanvasVertex: CanvasVertex,
     AppCanvasEdge: CanvasEdge
   },
   methods: {
-    ...mapActions(["addVertex"]),
+    ...mapActions("vertex", ["addVertex"]),
     ...mapActions("edge", ["addEdge"]),
     addNewVertex(e) {
       const stage = e.target.getStage();
@@ -64,31 +55,40 @@ export default {
       const newVertex = { x: pos.x, y: pos.y, id: this.availableVertexId };
       this.addVertex({ vertex: newVertex });
     },
-
     handleMouseDown(e) {
       if (!(e.target instanceof Konva.Circle)) return;
       if (this.addEdgeOption) {
         this.canDrawLine = true;
-        const clickedVertex = this.vertexList.find(v => v.id === e.target.id());
-        this.currentEdge.start = { x: clickedVertex.x, y: clickedVertex.y };
+        const clickedVertex = this.vertexes.find(v => v.id === e.target.id());
+        this.currentEdge.start = {
+          vertex: clickedVertex.id,
+          x: clickedVertex.x,
+          y: clickedVertex.y
+        };
         this.currentEdge.id = this.availableEdgeId;
       }
     },
     handleMouseMove(e) {
-      // TODO: ix fix fix it
       if (!this.canDrawLine) return;
       if (this.addEdgeOption) {
         const pos = e.target.getStage().getPointerPosition();
         this.currentEdge.end = { x: pos.x, y: pos.y };
-        // add edge to edgeList
       }
+      //   TODO: fix it, should show drawing line all time
     },
     handleMouseUp(e) {
       if (!(e.target instanceof Konva.Circle)) return;
       if (this.addEdgeOption) {
         this.canDrawLine = false;
-        this.currentEdge.end = { x: e.target.x(), y: e.target.y() };
-        this.addEdge({ edge: this.currentEdge });
+        const clickedVertex = this.vertexes.find(v => v.id === e.target.id());
+        if (clickedVertex.id) {
+          this.currentEdge.end = {
+            vertex: clickedVertex.id,
+            x: clickedVertex.x,
+            y: clickedVertex.y
+          };
+          this.addEdge(this.currentEdge);
+        }
         this.currentEdge = {};
       }
     }
