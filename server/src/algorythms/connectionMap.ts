@@ -37,6 +37,23 @@ const connectionMap: Array<connectionMap> = [
                 requiresIndex: true
             }
         ]
+    },
+    {
+        category: 'reprezentacja-grafow',
+        lessons: [
+            {
+                lesson: 'adjacency-matrix',
+                fun: graph => graph.getAdjacencyMatrix()
+            },
+            {
+                lesson: 'incidence-matrix',
+                fun: graph => graph.getIncidenceMatrix()
+            },
+            {
+                lesson: 'adjacency-list',
+                fun: graph => graph.getAdjacencyList()
+            }
+        ]
     }
 ];
 

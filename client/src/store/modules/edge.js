@@ -109,7 +109,11 @@ const actions = {
     commit("addEdge", edge);
     commit(
       "vertex/addEdge",
-      { vertexToID: payload.end.vertex, vertexFromID: payload.start.vertex },
+      {
+        id: payload.id,
+        vertexToID: payload.end.vertex,
+        vertexFromID: payload.start.vertex
+      },
       { root: true }
     );
   },

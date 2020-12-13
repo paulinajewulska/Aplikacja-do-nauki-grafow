@@ -127,12 +127,8 @@ const mutations = {
     const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
     const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
 
-    const newEdgeID = Math.max(
-      vertexTo.availableEdgeId,
-      vertexFrom.availableEdgeId
-    );
-    vertexFrom.addEdge(new Edge(payload.vertexToID, newEdgeID));
-    vertexTo.addEdge(new Edge(payload.vertexFromID, newEdgeID));
+    vertexFrom.addEdge(new Edge(payload.vertexToID, payload.id));
+    vertexTo.addEdge(new Edge(payload.vertexFromID, payload.id));
   },
   removeAllVertexes: state => (state.vertexes = [])
 };

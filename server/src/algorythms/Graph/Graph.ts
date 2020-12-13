@@ -1,4 +1,5 @@
 import { Vertex } from './Vertex';
+import { Edge } from './Edge';
 
 class Graph {
     private _adjList: Vertex[];
@@ -12,7 +13,15 @@ class Graph {
     }
 
     constructor(adjList: Vertex[] = []) {
-        this._adjList = adjList;
+        const vertexes: Array<Vertex> = [];
+        for (const v of adjList) {
+            const edges: Array<Edge> = [];
+            for (const e of v.edges) {
+                edges.push(new Edge(e._vertexTo, e._id));
+            }
+            vertexes.push(new Vertex(v.id, edges));
+        }
+        this._adjList = vertexes;
     }
 
     addVertex(vertex: Vertex = null): void {
@@ -65,6 +74,60 @@ class Graph {
     getDegree(index): number {
         const vertex = this.vertexes.find(v => v.id === index);
         return vertex.edges.length;
+    }
+
+    getIndexOfVertex(id: number): number {
+        return this.vertexes.findIndex(v => v.id === id);
+    }
+
+    getAdjacencyMatrix(): Array<Array<number>> {
+        const vertexSize = this.getGraphOrder();
+        const adjMatrix = Array(vertexSize)
+            .fill(null)
+            .map(() => Array(vertexSize).fill(0));
+
+        for (const vertex of this.vertexes) {
+            for (const edge of vertex.edges) {
+                const vertexIndex = this.getIndexOfVertex(vertex.id);
+                const vertexToIndex = this.getIndexOfVertex(edge._vertexTo);
+                adjMatrix[vertexIndex][vertexToIndex] = 1;
+            }
+        }
+
+        return adjMatrix;
+    }
+
+    getIncidenceMatrix(): Array<Array<number>> {
+        const vertexSize = this.getGraphOrder();
+        const edgesSize = this.getGraphSize();
+        const incMatrix = Array(vertexSize)
+            .fill(null)
+            .map(() => Array(edgesSize).fill(0));
+
+        for (const vertex of this.vertexes) {
+            for (const edge of vertex.edges) {
+                const vertexIndex = this.getIndexOfVertex(vertex.id);
+                const vertexToIndex = this.getIndexOfVertex(edge.id);
+                incMatrix[vertexIndex][vertexToIndex] = 1;
+            }
+        }
+
+        return incMatrix;
+    }
+
+    getAdjacencyList(): Array<Array<number>> {
+        const vertexSize = this.getGraphOrder();
+        const adjList = [];
+
+        for (const vertex of this.vertexes) {
+            const vertexIndex = this.getIndexOfVertex(vertex.id);
+            adjList[vertexIndex] = [];
+            for (const edge of vertex.edges) {
+                adjList[vertexIndex].push(edge.id);
+            }
+        }
+
+        return adjList;
     }
 }
 

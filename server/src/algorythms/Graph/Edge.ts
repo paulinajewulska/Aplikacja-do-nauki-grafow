@@ -1,13 +1,18 @@
 class Edge {
-    // TODO: check if vertex exists
-    readonly _vertexTo: number = null;
+    readonly _vertexTo: number;
+    readonly _id: number;
 
-    get vertexTo(): number {
+    get vertexTo() {
         return this._vertexTo;
     }
 
-    constructor(vertexTo: number) {
+    get id() {
+        return this._id;
+    }
+
+    constructor(vertexTo = null, id = null) {
         this._vertexTo = vertexTo;
+        this._id = id;
     }
 }
 
