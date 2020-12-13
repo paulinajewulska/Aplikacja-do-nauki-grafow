@@ -82,7 +82,8 @@ const mutations = {
     state.edges = state.edges.filter(
       v => v.vertexFrom !== removedVertex && v.vertexTo !== removedVertex
     );
-  }
+  },
+  removeAllEdges: state => (state.edges = [])
 };
 
 const actions = {

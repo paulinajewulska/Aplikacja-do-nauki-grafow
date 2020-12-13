@@ -32,14 +32,14 @@
     >
       Usuń krawędź
     </button>
-    <!--    <button type="button" class="btn my-2 btn-light" @click="deleteAll">-->
-    <!--      Usuń wszystko-->
-    <!--    </button>-->
+    <button type="button" class="btn my-2 btn-light" @click="deleteAll">
+      Usuń wszystko
+    </button>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CanvasAside",
@@ -48,6 +48,7 @@ export default {
     ...mapGetters("edge", ["addEdgeOption", "removeEdgeOption"])
   },
   methods: {
+    ...mapActions(["deleteAll"]),
     ...mapMutations("vertex", [
       "toggleAddVertexOption",
       "toggleRemoveVertexOption"

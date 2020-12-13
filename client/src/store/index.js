@@ -49,12 +49,6 @@ export default new Vuex.Store({
     toggleIsDirected(state) {
       state.isDirected = !state.isDirected;
     },
-    deleteAll(state) {
-      if (state.deleteVertexOption) {
-        state.deleteVertexOption = false;
-      }
-      state.vertexList = [];
-    },
     saveCategoryUrl(state, category) {
       state.categoryUrl = category;
     },
@@ -127,6 +121,10 @@ export default new Vuex.Store({
       );
       const res = await response.json();
       commit("saveResult", res.result);
+    },
+    deleteAll: ({ commit }) => {
+      commit("edge/removeAllEdges", null, { root: true });
+      commit("vertex/removeAllVertexes", null, { root: true });
     }
   },
   modules: { edge, vertex }

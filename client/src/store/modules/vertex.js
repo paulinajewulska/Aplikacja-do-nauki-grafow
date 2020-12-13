@@ -25,7 +25,7 @@ class Vertex {
     return this._y;
   }
 
-  addGraphEdge(edge) {
+  addEdge(edge) {
     if (!edge) {
       throw `Edge not provided.`;
     }
@@ -110,8 +110,9 @@ const mutations = {
       throw `Vertex with ${payload.vertexFromID} does not exists.`;
     }
     const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
-    vertexFrom.addGraphEdge(new Edge(payload.vertexToID));
-  }
+    vertexFrom.addEdge(new Edge(payload.vertexToID));
+  },
+  removeAllVertexes: state => (state.vertexes = [])
 };
 
 const actions = {
