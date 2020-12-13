@@ -20,6 +20,8 @@ export default new Vuex.Store({
     isDirected: false,
     categoryUrl: null,
     lessonUrl: null,
+    selectVertexAvailable: false,
+    selectedVertex: null,
     result: null
   },
   getters: {
@@ -27,6 +29,8 @@ export default new Vuex.Store({
     navigationList: state => state.navigationList,
     getLessonsList: state => state.lessonsList,
     lesson: state => state.lesson,
+    requireSelectedVertex: state => state.lesson.requireSelectedVertex,
+    selectVertexAvailable: state => state.selectVertexAvailable,
     isWeighted: state => state.isWeighted,
     isDirected: state => state.isDirected,
     categoryUrl: state => state.categoryUrl,
@@ -49,12 +53,16 @@ export default new Vuex.Store({
     toggleIsDirected(state) {
       state.isDirected = !state.isDirected;
     },
+    toggleSelectVertexAvailable(state) {
+      state.selectVertexAvailable = !state.selectVertexAvailable;
+    },
     saveCategoryUrl(state, category) {
       state.categoryUrl = category;
     },
     saveLessonUrl(state, lesson) {
       state.lessonUrl = lesson;
     },
+    saveSelectedVertex: (state, vertexID) => (state.selectedVertex = vertexID),
     saveResult: (state, result) => (state.result = result)
   },
   actions: {
@@ -100,8 +108,9 @@ export default new Vuex.Store({
       );
       const lesson = await response.json();
       commit("saveLesson", lesson);
+      commit("saveSelectedVertex", null);
     },
-    loadSolution: async ({ commit, rootState }) => {
+    loadSolution: async ({ commit, state, rootState }) => {
       const vertexes = rootState.vertex.vertexes.map(v => ({
         id: v.id,
         edges: v.edges
@@ -116,7 +125,12 @@ export default new Vuex.Store({
             "Content-Type": "application/json",
             Accept: "application/json"
           },
-          body: JSON.stringify({ vertexes, category, lesson })
+          body: JSON.stringify({
+            vertexes,
+            category,
+            lesson,
+            selectedVertex: state.selectedVertex
+          })
         }
       );
       const res = await response.json();

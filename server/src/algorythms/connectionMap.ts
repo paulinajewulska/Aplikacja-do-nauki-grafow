@@ -2,7 +2,8 @@ import { Graph } from './Graph/Graph';
 
 interface lessonsMap {
     lesson: string;
-    fun: (graph: Graph) => any;
+    fun: (graph: Graph, index?: number) => any;
+    requiresIndex?: boolean;
 }
 
 interface connectionMap {
@@ -25,6 +26,15 @@ const connectionMap: Array<connectionMap> = [
             {
                 lesson: 'rozmiar-grafu',
                 fun: graph => graph.getGraphSize()
+            },
+            {
+                lesson: 'graf-zerowy',
+                fun: graph => graph.isNullGraph()
+            },
+            {
+                lesson: 'stopien-wierzcholka',
+                fun: (graph: Graph, index: number) => graph.getDegree(index),
+                requiresIndex: true
             }
         ]
     }

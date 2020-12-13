@@ -16,6 +16,15 @@
     >
       graf wagowy
     </button>
+    <button
+      v-if="requireSelectedVertex"
+      type="button"
+      class="btn btn-primary"
+      :class="[selectVertexAvailable ? 'btn-primary' : 'btn-light']"
+      @click="toggleSelectVertexAvailable"
+    >
+      Wybierz wierzcholek
+    </button>
     <button type="button" class="btn btn-primary mx-2" @click="loadSolution">
       wynik
     </button>
@@ -28,10 +37,19 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "CanvasHeader",
   computed: {
-    ...mapGetters(["isDirected", "isWeighted"])
+    ...mapGetters([
+      "isDirected",
+      "isWeighted",
+      "requireSelectedVertex",
+      "selectVertexAvailable"
+    ])
   },
   methods: {
-    ...mapMutations(["toggleIsDirected", "toggleIsWeighted"]),
+    ...mapMutations([
+      "toggleIsDirected",
+      "toggleIsWeighted",
+      "toggleSelectVertexAvailable"
+    ]),
     ...mapActions(["loadSolution"])
   }
 };

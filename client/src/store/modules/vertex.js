@@ -3,8 +3,13 @@ class Edge {
     return this._vertexTo;
   }
 
-  constructor(vertexTo = null) {
+  get id() {
+    return this._id;
+  }
+
+  constructor(vertexTo = null, id = null) {
     this._vertexTo = vertexTo;
+    this._id = id;
   }
 }
 
@@ -77,7 +82,17 @@ const getters = {
     } else return 0;
   },
   vertexesNumber: state => state.vertexes.length,
-  removeVertexOption: state => state.removeVertexOption
+  removeVertexOption: state => state.removeVertexOption,
+  availableEdgeId: vertex => {
+    if (vertex.edges.length) {
+      return (
+        vertex.edges.reduce(
+          (max, v) => (v.id > max ? v.id : max),
+          vertex.edges[0].id
+        ) + 1
+      );
+    } else return 0;
+  }
 };
 
 const mutations = {
@@ -110,7 +125,14 @@ const mutations = {
       throw `Vertex with ${payload.vertexFromID} does not exists.`;
     }
     const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
-    vertexFrom.addEdge(new Edge(payload.vertexToID));
+    const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
+
+    const newEdgeID = Math.max(
+      vertexTo.availableEdgeId,
+      vertexFrom.availableEdgeId
+    );
+    vertexFrom.addEdge(new Edge(payload.vertexToID, newEdgeID));
+    vertexTo.addEdge(new Edge(payload.vertexFromID, newEdgeID));
   },
   removeAllVertexes: state => (state.vertexes = [])
 };

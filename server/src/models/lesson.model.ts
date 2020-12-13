@@ -5,7 +5,8 @@ const LessonSchema = createSchema({
     url: Type.string({ required: true, unique: true }),
     description: Type.string({ required: true }),
     pseudocode: Type.string(),
-    tip: Type.string()
+    tip: Type.string(),
+    requireSelectedVertex: Type.boolean()
 });
 
 export { LessonSchema };

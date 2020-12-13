@@ -32,7 +32,13 @@ const getLesson = (req: Request, res: Response): void => {
 
     if (category && lesson) {
         Category.find({ url: category.toLowerCase() })
-            .select(['lessons.url', 'lessons.description', 'lessons.pseudocode', 'lessons.tip'])
+            .select([
+                'lessons.url',
+                'lessons.description',
+                'lessons.pseudocode',
+                'lessons.tip',
+                'lessons.requireSelectedVertex'
+            ])
             .then(lessons => {
                 res.json(lessons[0].lessons.find(ls => ls.url === lesson));
             })
@@ -43,10 +49,16 @@ const getLesson = (req: Request, res: Response): void => {
 };
 
 const getLessonSolution = (req: Request, res: Response): void => {
-    const { vertexes, category, lesson } = req.body;
+    const { vertexes, category, lesson, selectedVertex = null } = req.body;
+
+    const graphFun = getGraphFun(category, lesson);
     try {
-        const graphFun: (Graph) => any = getGraphFun(category, lesson);
-        const result: number | boolean = graphFun(new Graph(vertexes));
+        let result: number | boolean = null;
+        if (selectedVertex != null) {
+            result = graphFun(new Graph(vertexes), selectedVertex);
+        } else {
+            result = graphFun(new Graph(vertexes));
+        }
         res.json({ result });
     } catch (err) {
         res.status(400).send(err);

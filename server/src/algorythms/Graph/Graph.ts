@@ -54,11 +54,17 @@ class Graph {
     }
 
     getGraphSize(): number {
-        return this._adjList.reduce((graphSize, v) => (graphSize += v.edges.length), 0);
+        // TODO: fix it, should add by unique id
+        return this._adjList.reduce((graphSize, v) => (graphSize += v.edges.length), 0) / 2;
     }
 
     isNullGraph(): boolean {
-        return !this.getGraphSize();
+        return this.getGraphSize() === 0;
+    }
+
+    getDegree(index): number {
+        const vertex = this.vertexes.find(v => v.id === index);
+        return vertex.edges.length;
     }
 }
 
