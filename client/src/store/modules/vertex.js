@@ -1,3 +1,13 @@
+class Edge {
+  get vertexTo() {
+    return this._vertexTo;
+  }
+
+  constructor(vertexTo = null) {
+    this._vertexTo = vertexTo;
+  }
+}
+
 class Vertex {
   get edges() {
     return this._edges;
@@ -15,7 +25,7 @@ class Vertex {
     return this._y;
   }
 
-  addEdge(edge) {
+  addGraphEdge(edge) {
     if (!edge) {
       throw `Edge not provided.`;
     }
@@ -91,6 +101,16 @@ const mutations = {
       state.addVertexOption = false;
     }
     state.removeVertexOption = !state.removeVertexOption;
+  },
+  addEdge(state, payload) {
+    if (!state.vertexes.some(v => v.id === payload.vertexToID)) {
+      throw `Vertex with ${payload.vertexToID} does not exists.`;
+    }
+    if (!state.vertexes.some(v => v.id === payload.vertexFromID)) {
+      throw `Vertex with ${payload.vertexFromID} does not exists.`;
+    }
+    const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
+    vertexFrom.addGraphEdge(new Edge(payload.vertexToID));
   }
 };
 
@@ -103,9 +123,10 @@ const actions = {
   },
   removeVertex: ({ commit, state }, payload) => {
     if (!state.vertexes.some(v => v.id === payload.id)) {
-      throw `Vertex with ${payload.vertex.id} id does not exist.`;
+      throw `Vertex with ${payload.id} id does not exist.`;
     }
     commit("removeVertex", payload.id);
+    commit("edge/removeEdgeConnectedToVertex", payload.id, { root: true });
   }
 };
 
