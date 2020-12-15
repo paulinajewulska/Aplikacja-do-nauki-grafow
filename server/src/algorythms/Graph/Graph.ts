@@ -3,6 +3,7 @@ import { Edge } from './Edge';
 
 class Graph {
     private _adjList: Vertex[];
+    private isDirected: boolean;
 
     get vertexes(): Vertex[] {
         return this._adjList;
@@ -12,12 +13,17 @@ class Graph {
         this._adjList = v;
     }
 
-    constructor(adjList: Vertex[] = []) {
+    constructor(adjList: Vertex[] = [], isDirected = false) {
+        this.isDirected = isDirected;
+
         const vertexes: Array<Vertex> = [];
         for (const v of adjList) {
             const edges: Array<Edge> = [];
             for (const e of v.edges) {
-                edges.push(new Edge(e._vertexTo, e._id));
+                if (e._vertexTo !== e._vertexFrom) {
+                    console.table(new Edge(e._vertexFrom, e._vertexTo, e._id));
+                    edges.push(new Edge(e._vertexFrom, e._vertexTo, e._id));
+                }
             }
             vertexes.push(new Vertex(v.id, edges));
         }
@@ -64,7 +70,13 @@ class Graph {
 
     getGraphSize(): number {
         // TODO: fix it, should add by unique id
-        return this._adjList.reduce((graphSize, v) => (graphSize += v.edges.length), 0) / 2;
+        const idList = [];
+        for (const v of this.vertexes) {
+            for (const e of v.edges) {
+                idList.push(e.id);
+            }
+        }
+        return [...new Set(idList)].length;
     }
 
     isNullGraph(): boolean {
@@ -72,8 +84,16 @@ class Graph {
     }
 
     getDegree(index): number {
-        const vertex = this.vertexes.find(v => v.id === index);
-        return vertex.edges.length;
+        const vertexFromEdges = this.vertexes.find(v => v.id === index).edges.length || 0;
+        let vertexToEdges = 0;
+
+        for (const v of this.vertexes) {
+            for (const e of v.edges) {
+                if (e.vertexTo === index) { vertexToEdges++; }
+            }
+        }
+
+        return vertexFromEdges + vertexToEdges;
     }
 
     getIndexOfVertex(id: number): number {

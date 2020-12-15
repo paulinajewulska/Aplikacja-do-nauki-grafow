@@ -117,6 +117,7 @@ export default new Vuex.Store({
       }));
       const category = rootState.categoryUrl;
       const lesson = rootState.lessonUrl;
+      const isDirected = rootState.isDirected;
       const response = await fetch(
         `${rootState.baseURL}/categories/${category}/${lesson}`,
         {
@@ -129,7 +130,8 @@ export default new Vuex.Store({
             vertexes,
             category,
             lesson,
-            selectedVertex: state.selectedVertex
+            selectedVertex: state.selectedVertex,
+            isDirected
           })
         }
       );

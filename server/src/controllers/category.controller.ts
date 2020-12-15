@@ -49,15 +49,15 @@ const getLesson = (req: Request, res: Response): void => {
 };
 
 const getLessonSolution = (req: Request, res: Response): void => {
-    const { vertexes, category, lesson, selectedVertex = null } = req.body;
+    const { vertexes, category, lesson, selectedVertex = null, isDirected = false } = req.body;
 
     const graphFun = getGraphFun(category, lesson);
     try {
         let result: number | boolean = null;
         if (selectedVertex != null) {
-            result = graphFun(new Graph(vertexes), selectedVertex);
+            result = graphFun(new Graph(vertexes, isDirected), selectedVertex);
         } else {
-            result = graphFun(new Graph(vertexes));
+            result = graphFun(new Graph(vertexes, isDirected));
         }
         res.json({ result });
     } catch (err) {

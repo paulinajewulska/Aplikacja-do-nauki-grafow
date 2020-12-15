@@ -4,7 +4,7 @@
       type="button"
       class="btn mx-2"
       :class="[isDirected ? 'btn-primary' : 'btn-light']"
-      @click="toggleIsDirected"
+      @click="toggleIsDirectedAll"
     >
       graf skierowany
     </button>
@@ -50,7 +50,11 @@ export default {
       "toggleIsWeighted",
       "toggleSelectVertexAvailable"
     ]),
-    ...mapActions(["loadSolution"])
+    ...mapActions(["loadSolution", "deleteAll"]),
+    toggleIsDirectedAll() {
+      this.toggleIsDirected();
+      this.deleteAll();
+    }
   }
 };
 </script>

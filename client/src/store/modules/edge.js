@@ -121,7 +121,17 @@ const actions = {
     if (!state.edges.some(v => v.id === payload.id)) {
       throw `Edge with ${payload.id} id does not exist.`;
     }
-    commit("removeEdge", payload.id);
+    const edge = state.edges.find(e => e.id === payload.id);
+    commit("removeEdge", edge.id);
+    commit(
+      "vertex/removeEdge",
+      {
+        vertexFromID: edge.vertexFrom,
+        vertexToID: edge.vertexTo,
+        id: edge.id
+      },
+      { root: true }
+    );
   }
 };
 
