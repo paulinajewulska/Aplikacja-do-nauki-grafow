@@ -23,6 +23,10 @@ class Vertex {
     return this._edges;
   }
 
+  set edges(edges) {
+    this._edges = edges;
+  }
+
   get id() {
     return this._id;
   }
@@ -39,7 +43,6 @@ class Vertex {
     if (!edge) {
       throw `Edge not provided.`;
     }
-    console.log(edge.id);
     this._edges.push(edge);
   }
 
@@ -107,6 +110,9 @@ const mutations = {
       state.vertexes.findIndex(v => v.id === id),
       1
     );
+    for (const v of state.vertexes) {
+      v.edges = v.edges.filter(e => e.vertexTo !== id);
+    }
   },
   toggleRemoveVertexOption(state) {
     if (state.addVertexOption) {
@@ -166,7 +172,7 @@ const actions = {
       throw `Vertex with ${payload.id} id does not exist.`;
     }
     commit("removeVertex", payload.id);
-    commit("edge/removeEdgeConnectedToVertex", payload, { root: true });
+    commit("edge/removeEdgeConnectedToVertex", payload.id, { root: true });
   }
 };
 

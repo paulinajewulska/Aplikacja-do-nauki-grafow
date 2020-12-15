@@ -21,7 +21,6 @@ class Graph {
             const edges: Array<Edge> = [];
             for (const e of v.edges) {
                 if (e._vertexTo !== e._vertexFrom) {
-                    console.table(new Edge(e._vertexFrom, e._vertexTo, e._id));
                     edges.push(new Edge(e._vertexFrom, e._vertexTo, e._id));
                 }
             }
@@ -69,7 +68,6 @@ class Graph {
     }
 
     getGraphSize(): number {
-        // TODO: fix it, should add by unique id
         const idList = [];
         for (const v of this.vertexes) {
             for (const e of v.edges) {
@@ -87,9 +85,13 @@ class Graph {
         const vertexFromEdges = this.vertexes.find(v => v.id === index).edges.length || 0;
         let vertexToEdges = 0;
 
-        for (const v of this.vertexes) {
-            for (const e of v.edges) {
-                if (e.vertexTo === index) { vertexToEdges++; }
+        if (this.isDirected) {
+            for (const v of this.vertexes) {
+                for (const e of v.edges) {
+                    if (e.vertexTo === index) {
+                        vertexToEdges++;
+                    }
+                }
             }
         }
 
