@@ -1,17 +1,14 @@
 <template>
-  <v-line
-    :key="edge.id"
-    :config="{
-      stroke: 'black',
-      strokeWidth: 5,
-      points: points
-    }"
-    @click="removeClickedEdge"
-  />
+  <div>
+    <app-canvas-directed-edge v-if="isDirected" :edge="edge" />
+    <app-canvas-default-edge v-else :edge="edge" />
+  </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import CanvasDefaultEdge from "@/components/Canvas/CanvasEdge/CanvasDefaultEdge";
+import CanvasDirectedEdge from "@/components/Canvas/CanvasEdge/CanvasDirectedEdge";
+import { mapGetters } from "vuex";
 
 export default {
   name: "CanvasEdge",
@@ -22,30 +19,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("edge", ["removeEdgeOption"]),
-    points() {
-      return [
-        this.edge.points.start.x,
-        this.edge.points.start.y,
-        this.edge.points.end.x,
-        this.edge.points.end.y
-      ];
-    }
+    ...mapGetters(["isDirected"])
   },
-  methods: {
-    ...mapActions("edge", ["removeEdge"]),
-    removeClickedEdge() {
-      if (!this.removeEdgeOption) return;
-      this.removeEdge({ id: this.edge.id });
-    }
+  components: {
+    AppCanvasDefaultEdge: CanvasDefaultEdge,
+    AppCanvasDirectedEdge: CanvasDirectedEdge
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../../style/main";
-
-.vertex {
-  z-index: 5;
-}
-</style>
