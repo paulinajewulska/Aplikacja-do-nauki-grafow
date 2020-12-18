@@ -3,7 +3,7 @@ import { Edge } from './Edge';
 
 class Graph {
     private _adjList: Vertex[];
-    private isDirected: boolean;
+    private readonly isDirected: boolean;
 
     get vertexes(): Vertex[] {
         return this._adjList;
@@ -128,9 +128,13 @@ class Graph {
 
         for (const vertex of this.vertexes) {
             for (const edge of vertex.edges) {
-                const vertexIndex = this.getIndexOfVertex(vertex.id);
-                const vertexToIndex = this.getIndexOfVertex(edge.id);
-                incMatrix[vertexIndex][vertexToIndex] = 1;
+                const edgeIndex = this.getIndexOfVertex(edge.id);
+                const vertexToIndex = this.getIndexOfVertex(edge._vertexTo);
+                const vertexFromIndex = this.getIndexOfVertex(edge._vertexFrom);
+                incMatrix[vertexToIndex][edgeIndex] = 1;
+                if (this.isDirected) {
+                    incMatrix[vertexFromIndex][edgeIndex] = -1;
+                }
             }
         }
 
@@ -138,14 +142,13 @@ class Graph {
     }
 
     getAdjacencyList(): Array<Array<number>> {
-        const vertexSize = this.getGraphOrder();
         const adjList = [];
 
         for (const vertex of this.vertexes) {
             const vertexIndex = this.getIndexOfVertex(vertex.id);
             adjList[vertexIndex] = [];
             for (const edge of vertex.edges) {
-                adjList[vertexIndex].push(edge.id);
+                adjList[vertexIndex].push(edge._vertexTo);
             }
         }
 
