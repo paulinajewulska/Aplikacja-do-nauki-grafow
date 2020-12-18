@@ -4,6 +4,7 @@ import { Edge } from './Edge';
 class Graph {
     private _adjList: Vertex[];
     private readonly isDirected: boolean;
+    private _visited: Array<Vertex['id']> = [];
 
     get vertexes(): Vertex[] {
         return this._adjList;
@@ -11,6 +12,18 @@ class Graph {
 
     set vertexes(v: Vertex[]) {
         this._adjList = v;
+    }
+
+    set visited(v: Array<Vertex['id']>) {
+        this._visited = v;
+    }
+
+    get visited(): Array<Vertex['id']> {
+        return this._visited;
+    }
+
+    addVisitedValue(v: Vertex['id']): void {
+        this._visited.push(v);
     }
 
     constructor(adjList: Vertex[] = [], isDirected = false) {
@@ -81,7 +94,7 @@ class Graph {
         return this.getGraphSize() === 0;
     }
 
-    getDegree(index): number {
+    getDegree(index: Vertex['id']): number {
         const vertexFromEdges = this.vertexes.find(v => v.id === index).edges.length || 0;
         let vertexToEdges = 0;
 
@@ -153,6 +166,47 @@ class Graph {
         }
 
         return adjList;
+    }
+
+    depthFirstSearch(start: Vertex['id']): void {
+        this.addVisitedValue(start);
+        const vertex: Vertex = this.vertexes.find(v => v.id === start);
+
+        for (const e of vertex.edges) {
+            if (!this.visited.includes(e.vertexTo)) {
+                this.depthFirstSearch(e.vertexTo);
+            }
+        }
+    }
+
+    getDepthFirstSearch(start: Vertex['id']): Array<Vertex['id']> {
+        this.visited = [];
+        this.depthFirstSearch(start);
+        return this.visited;
+    }
+
+    breadthFirstSearch(start: Vertex['id']): void {
+        const Q: Array<Vertex['id']> = [];
+        this.addVisitedValue(start);
+        Q.push(start);
+
+        while (Q.length) {
+            const vertex = this.vertexes.find(v => v.id === Q[0]);
+            Q.shift();
+
+            for (const e of vertex.edges) {
+                if (!this.visited.includes(e.vertexTo)) {
+                    Q.push(e.vertexTo);
+                    this.addVisitedValue(e.vertexTo);
+                }
+            }
+        }
+    }
+
+    getBreadthFirstSearch(start: Vertex['id']): Array<Vertex['id']> {
+        this.visited = [];
+        this.breadthFirstSearch(start);
+        return this.visited;
     }
 }
 

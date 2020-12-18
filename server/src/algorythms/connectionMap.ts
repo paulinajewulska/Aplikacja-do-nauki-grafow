@@ -54,6 +54,19 @@ const connectionMap: Array<connectionMap> = [
                 fun: graph => graph.getAdjacencyList()
             }
         ]
+    },
+    {
+        category: 'przechodzenie-grafow',
+        lessons: [
+            {
+                lesson: 'w-glab',
+                fun: (graph: Graph, index: number) => graph.getDepthFirstSearch(index)
+            },
+            {
+                lesson: 'wszerz',
+                fun: (graph: Graph, index: number) => graph.getBreadthFirstSearch(index)
+            }
+        ]
     }
 ];
 

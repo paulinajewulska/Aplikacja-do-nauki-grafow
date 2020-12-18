@@ -3,15 +3,15 @@ class Edge {
     readonly _vertexFrom: number;
     readonly _id: number;
 
-    get vertexTo() {
+    get vertexTo(): number {
         return this._vertexTo;
     }
 
-    get vertexFrom() {
+    get vertexFrom(): number {
         return this._vertexFrom;
     }
 
-    get id() {
+    get id(): number {
         return this._id;
     }
 
