@@ -9,8 +9,8 @@
       @mousemove="handleMouseMove"
     >
       <v-layer>
-        <app-canvas-vertex v-for="v of vertexes" :vertex="v" :key="v.id" />
         <app-canvas-edge v-for="e of edges" :key="`edge-${e.id}`" :edge="e" />
+        <app-canvas-vertex v-for="v of vertexes" :vertex="v" :key="v.id" />
       </v-layer>
     </v-stage>
   </div>

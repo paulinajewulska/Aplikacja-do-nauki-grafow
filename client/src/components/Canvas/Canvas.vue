@@ -33,7 +33,6 @@ export default {
   grid-template-columns: 10vh auto;
   grid-template-rows: 10vh auto 10vh;
   width: 100%;
-  height: calc(100vh - 4 * #{$margin-mobile});
   margin: $margin-mobile 0;
   background-color: $light;
   overflow: hidden;

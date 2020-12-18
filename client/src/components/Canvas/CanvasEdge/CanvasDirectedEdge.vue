@@ -7,6 +7,7 @@
         tension: 0.5,
         stroke: 'black'
       }"
+      @click="onEdgeClick"
     />
     <v-shape
       :config="{
@@ -25,13 +26,23 @@
         stroke: 'black',
         strokeWidth: 4
       }"
-      @click="removeClickedEdge"
+      @click="onEdgeClick"
+    />
+    <v-text
+      :config="{
+        text: this.isWeighted
+          ? `Waga: ${edge.weight} \n ID: ${edge.id}`
+          : `ID: ${edge.id}`,
+        x: edgeCenter.x - 4,
+        y: edgeCenter.y - 3,
+        fill: 'black'
+      }"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CanvasDirectedEdge",
@@ -47,7 +58,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("edge", ["removeEdgeOption"]),
+    ...mapGetters(["isWeighted"]),
+    ...mapGetters("edge", ["removeEdgeOption", "addWeightToEdgeOption"]),
     points() {
       return [
         this.edge.points.start.x,
@@ -60,13 +72,23 @@ export default {
       const dx = this.points[2] - this.points[0];
       const dy = this.points[3] - this.points[1];
       return Math.atan2(dy, dx);
+    },
+    edgeCenter() {
+      return {
+        x: (this.edge.points.start.x + this.edge.points.end.x) / 2,
+        y: (this.edge.points.start.y + this.edge.points.end.y) / 2
+      };
     }
   },
   methods: {
+    ...mapMutations("edge", ["selectedEdge"]),
     ...mapActions("edge", ["removeEdge"]),
-    removeClickedEdge() {
-      if (!this.removeEdgeOption) return;
-      this.removeEdge({ id: this.edge.id });
+    onEdgeClick() {
+      if (this.removeEdgeOption) {
+        this.removeEdge({ id: this.edge.id });
+      } else if (this.addWeightToEdgeOption) {
+        this.selectedEdge(this.edge.id);
+      }
     }
   }
 };

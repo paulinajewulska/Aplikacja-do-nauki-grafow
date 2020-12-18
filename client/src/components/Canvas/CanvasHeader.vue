@@ -28,6 +28,15 @@
     <button type="button" class="btn btn-primary mx-2" @click="loadSolution">
       wynik
     </button>
+    <form class="canvas-weight-input" v-if="isWeighted">
+      <b-form-input
+        v-model="weight"
+        placeholder="Enter weight      "
+      ></b-form-input>
+      <button type="button" class="btn btn-primary" @click="setEdgeWeight">
+        Ustaw wagę
+      </button>
+    </form>
   </div>
 </template>
 
@@ -36,6 +45,11 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CanvasHeader",
+  data() {
+    return {
+      weight: 1
+    };
+  },
   computed: {
     ...mapGetters([
       "isDirected",
@@ -51,9 +65,13 @@ export default {
       "toggleSelectVertexAvailable"
     ]),
     ...mapActions(["loadSolution", "deleteAll"]),
+    ...mapActions("edge", ["setWeight"]),
     toggleIsDirectedAll() {
       this.toggleIsDirected();
       this.deleteAll();
+    },
+    setEdgeWeight() {
+      this.setWeight(this.weight);
     }
   }
 };
@@ -70,6 +88,15 @@ export default {
   .btn {
     height: fit-content;
     font-size: 0.85rem;
+  }
+}
+
+.canvas-weight-input {
+  display: flex;
+  align-items: center;
+
+  input {
+    margin: auto 0.5rem;
   }
 }
 </style>

@@ -35,6 +35,15 @@
     <button type="button" class="btn my-2 btn-light" @click="deleteAll">
       Usuń wszystko
     </button>
+    <button
+      v-if="isWeighted"
+      type="button"
+      class="btn my-2 "
+      :class="[addWeightToEdgeOption ? 'btn-primary' : 'btn-light']"
+      @click="toggleAddWeightToEdgeOption"
+    >
+      Dodaj wagę
+    </button>
   </div>
 </template>
 
@@ -44,8 +53,13 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "CanvasAside",
   computed: {
+    ...mapGetters(["isWeighted"]),
     ...mapGetters("vertex", ["addVertexOption", "removeVertexOption"]),
-    ...mapGetters("edge", ["addEdgeOption", "removeEdgeOption"])
+    ...mapGetters("edge", [
+      "addEdgeOption",
+      "removeEdgeOption",
+      "addWeightToEdgeOption"
+    ])
   },
   methods: {
     ...mapActions(["deleteAll"]),
@@ -53,7 +67,11 @@ export default {
       "toggleAddVertexOption",
       "toggleRemoveVertexOption"
     ]),
-    ...mapMutations("edge", ["toggleAddEdgeOption", "toggleRemoveEdgeOption"])
+    ...mapMutations("edge", [
+      "toggleAddEdgeOption",
+      "toggleRemoveEdgeOption",
+      "toggleAddWeightToEdgeOption"
+    ])
   }
 };
 </script>

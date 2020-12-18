@@ -11,6 +11,14 @@ class Edge {
     return this._id;
   }
 
+  get weight() {
+    return this._weight;
+  }
+
+  set weight(newWeight) {
+    this._weight = newWeight;
+  }
+
   get points() {
     const start = { x: this._points._start._x, y: this._points._start._y };
     const end = { x: this._points._end._x, y: this._points._end._y };
@@ -22,7 +30,8 @@ class Edge {
     vertexTo = null,
     id = null,
     start = null,
-    end = null
+    end = null,
+    weight = 1
   ) {
     this._vertexFrom = vertexFrom;
     this._vertexTo = vertexTo;
@@ -31,19 +40,24 @@ class Edge {
       _start: { _x: start.x, _y: start.y },
       _end: { _x: end.x, _y: end.y }
     };
+    this._weight = weight;
   }
 }
 
 const state = () => ({
   addEdgeOption: false,
   removeEdgeOption: false,
-  edges: []
+  addWeightToEdgeOption: false,
+  edges: [],
+  selectedEdge: null
 });
 
 const getters = {
   addEdgeOption: state => state.addEdgeOption,
   removeEdgeOption: state => state.removeEdgeOption,
   edges: state => state.edges,
+  addWeightToEdgeOption: state => state.addWeightToEdgeOption,
+  selectedEdge: state => state.selectedEdge,
   availableEdgeId: state => {
     if (state.edges.length) {
       return (
@@ -83,7 +97,12 @@ const mutations = {
       v => v.vertexFrom !== removedVertex && v.vertexTo !== removedVertex
     );
   },
-  removeAllEdges: state => (state.edges = [])
+  removeAllEdges: state => (state.edges = []),
+  toggleAddWeightToEdgeOption: state =>
+    (state.addWeightToEdgeOption = !state.addWeightToEdgeOption),
+  setWeight: (state, weight) =>
+    (state.edges.find(e => e.id === state.selectedEdge).weight = weight),
+  selectedEdge: (state, id) => (state.selectedEdge = id)
 };
 
 const actions = {
@@ -132,6 +151,9 @@ const actions = {
       },
       { root: true }
     );
+  },
+  setWeight: ({ commit }, weight) => {
+    commit("setWeight", weight);
   }
 };
 

@@ -1,25 +1,35 @@
 <template>
-  <v-circle
-    :key="vertex.id"
-    :config="{
-      id: vertex.id,
-      x: vertex.x,
-      y: vertex.y,
-      radius: radius,
-      fill: '#9c9d9d',
-      // draggable: true,
-      stroke: 'black',
-      strokeWidth: 2
-    }"
-    class="vertex"
-    @click="
-      removeVertexOption
-        ? removeClickedVertex($event)
-        : selectVertexAvailable
-        ? selectVertex($event)
-        : {}
-    "
-  ></v-circle>
+  <div>
+    <v-circle
+      :key="vertex.id"
+      :config="{
+        id: vertex.id,
+        x: vertex.x,
+        y: vertex.y,
+        radius: radius,
+        fill: '#9c9d9d',
+        // draggable: true,
+        stroke: 'black',
+        strokeWidth: 2
+      }"
+      class="vertex"
+      @click="
+        removeVertexOption
+          ? removeClickedVertex($event)
+          : selectVertexAvailable
+          ? selectVertex($event)
+          : {}
+      "
+    ></v-circle>
+    <v-text
+      :config="{
+        text: vertex.id,
+        x: vertex.x - 3,
+        y: vertex.y - 4,
+        fill: 'black'
+      }"
+    />
+  </div>
 </template>
 
 <script>
