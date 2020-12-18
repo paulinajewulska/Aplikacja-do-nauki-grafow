@@ -100,8 +100,12 @@ const mutations = {
   removeAllEdges: state => (state.edges = []),
   toggleAddWeightToEdgeOption: state =>
     (state.addWeightToEdgeOption = !state.addWeightToEdgeOption),
-  setWeight: (state, weight) =>
-    (state.edges.find(e => e.id === state.selectedEdge).weight = weight),
+  setWeight(state, weight) {
+    const edge = state.edges.find(e => e.id === state.selectedEdge);
+    if (edge) {
+      edge.weight = weight;
+    }
+  },
   selectedEdge: (state, id) => (state.selectedEdge = id)
 };
 
