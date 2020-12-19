@@ -67,6 +67,19 @@ const connectionMap: Array<connectionMap> = [
                 fun: (graph: Graph, index: number) => graph.getBreadthFirstSearch(index)
             }
         ]
+    },
+    {
+        category: 'minimalne-drzewo-rozpinajace',
+        lessons: [
+            {
+                lesson: 'kruskal',
+                fun: (graph: Graph) => graph.getKruskalMinimumSpanningTree()
+            },
+            {
+                lesson: 'prim',
+                fun: (graph: Graph) => graph.getPrimMinimumSpanningTree()
+            }
+        ]
     }
 ];
 

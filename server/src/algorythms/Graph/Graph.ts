@@ -34,7 +34,7 @@ class Graph {
             const edges: Array<Edge> = [];
             for (const e of v.edges) {
                 if (e._vertexTo !== e._vertexFrom) {
-                    edges.push(new Edge(e._vertexFrom, e._vertexTo, e._id));
+                    edges.push(new Edge(e._vertexFrom, e._vertexTo, e._id, e._weight));
                 }
             }
             vertexes.push(new Vertex(v.id, edges));
@@ -186,17 +186,17 @@ class Graph {
     }
 
     breadthFirstSearch(start: Vertex['id']): void {
-        const Q: Array<Vertex['id']> = [];
+        const Queue: Array<Vertex['id']> = [];
         this.addVisitedValue(start);
-        Q.push(start);
+        Queue.push(start);
 
-        while (Q.length) {
-            const vertex = this.vertexes.find(v => v.id === Q[0]);
-            Q.shift();
+        while (Queue.length) {
+            const vertex = this.vertexes.find(v => v.id === Queue[0]);
+            Queue.shift();
 
             for (const e of vertex.edges) {
                 if (!this.visited.includes(e.vertexTo)) {
-                    Q.push(e.vertexTo);
+                    Queue.push(e.vertexTo);
                     this.addVisitedValue(e.vertexTo);
                 }
             }
@@ -207,6 +207,51 @@ class Graph {
         this.visited = [];
         this.breadthFirstSearch(start);
         return this.visited;
+    }
+
+    getKruskalMinimumSpanningTree() {
+        //     TODO: add checking if connected graph
+        //     TODO: add checking if not directed
+
+        const separableCollections = [];
+        const Queue = [];
+        const minSpanningTree = [];
+
+        for (const v of this.vertexes) {
+            separableCollections.push([v.id]);
+            for (const e of v.edges) {
+                Queue.push(e);
+            }
+        }
+
+        Queue.sort((a, b) => a.weight - b.weight);
+
+        for (let i = 1; i < this.getGraphOrder(); ++i) {
+            let vertexFromID, vertexToID;
+            let edge;
+            do {
+                edge = Queue.shift();
+                const { vertexFrom, vertexTo } = edge;
+
+                for (let j = 0; j < separableCollections.length; ++j) {
+                    vertexFromID = separableCollections[j].some(e => e === vertexFrom) ? j : vertexFromID;
+                    vertexToID = separableCollections[j].some(e => e === vertexTo) ? j : vertexToID;
+                }
+            } while (vertexFromID === vertexToID);
+
+            minSpanningTree.push(edge.id);
+            separableCollections[vertexFromID] = [
+                ...separableCollections[vertexFromID],
+                ...separableCollections[vertexToID]
+            ];
+            separableCollections.splice(vertexToID, 1);
+        }
+
+        return minSpanningTree;
+    }
+
+    getPrimMinimumSpanningTree() {
+        //     TODO: add checking if connected graph
     }
 }
 

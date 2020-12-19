@@ -135,7 +135,8 @@ const actions = {
       {
         id: payload.id,
         vertexToID: payload.end.vertex,
-        vertexFromID: payload.start.vertex
+        vertexFromID: payload.start.vertex,
+        weight: edge.weight
       },
       { root: true }
     );
@@ -156,8 +157,22 @@ const actions = {
       { root: true }
     );
   },
-  setWeight: ({ commit }, weight) => {
+  updateEdge: ({ commit, state }, weight) => {
+    if (!state.edges.some(v => v.id === state.selectedEdge)) {
+      throw `Edge with ${state.selectedEdge.id} id does not exist.`;
+    }
+    const edge = state.edges.find(e => e.id === state.selectedEdge);
     commit("setWeight", weight);
+    commit(
+      "vertex/updateEdge",
+      {
+        vertexFromID: edge.vertexFrom,
+        vertexToID: edge.vertexTo,
+        id: edge.id,
+        weight: weight
+      },
+      { root: true }
+    );
   }
 };
 

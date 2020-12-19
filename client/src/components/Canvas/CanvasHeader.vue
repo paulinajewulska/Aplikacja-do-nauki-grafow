@@ -65,13 +65,13 @@ export default {
       "toggleSelectVertexAvailable"
     ]),
     ...mapActions(["loadSolution", "deleteAll"]),
-    ...mapActions("edge", ["setWeight"]),
+    ...mapActions("edge", ["updateEdge"]),
     toggleIsDirectedAll() {
       this.toggleIsDirected();
       this.deleteAll();
     },
     setEdgeWeight() {
-      this.setWeight(this.weight);
+      this.updateEdge(this.weight);
     }
   }
 };
