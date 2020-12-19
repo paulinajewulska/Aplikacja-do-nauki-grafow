@@ -252,6 +252,40 @@ class Graph {
 
     getPrimMinimumSpanningTree() {
         //     TODO: add checking if connected graph
+        //     TODO: add checking if not directed
+
+        const minSpanningTree = [];
+        const Queue = [];
+        const vertexNumber = this.getGraphOrder();
+        const visited = Array(vertexNumber).fill(false);
+        let currentVertexId = 0;
+        let currentEdge: Edge;
+        let nextVertexId: number;
+
+        visited[currentVertexId] = true;
+
+        for (let i = 1; i < vertexNumber; ++i) {
+            currentVertexId = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === currentVertexId));
+
+            for (const e of this.vertexes[currentVertexId].edges) {
+                const id = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === e.vertexTo));
+                if (visited[id] === false) {
+                    Queue.push(e);
+                }
+            }
+
+            Queue.sort((a, b) => a.weight - b.weight);
+
+            do {
+                currentEdge = Queue.shift();
+                nextVertexId = this.vertexes.indexOf(this.vertexes.find(e => e.id === currentEdge.vertexTo));
+            } while (visited[nextVertexId] === true);
+            minSpanningTree.push(currentEdge.id);
+            visited[nextVertexId] = true;
+            currentVertexId = nextVertexId;
+        }
+
+        return minSpanningTree;
     }
 }
 
