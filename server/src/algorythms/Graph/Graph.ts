@@ -402,6 +402,44 @@ class Graph {
         }
         return cycle;
     }
+
+    findDFSDirectedCycle(startVertex, currVertex) {
+        const currVertexIndex = this.getIndexOfVertex(currVertex);
+        this.visited[currVertexIndex] = true;
+        this.stack.push(currVertex);
+
+        const adjList = this.getAdjacencyList()[currVertexIndex];
+
+        for (const v of adjList) {
+            if (v === startVertex) {
+                return true;
+            }
+            if (!this.visited[this.getVertexArrayIndex(v)] && this.findDFSCycle(startVertex, v)) {
+                return true;
+            }
+            this.stack.pop();
+        }
+        return false;
+    }
+
+    findDirectedCycle() {
+        const vertexNumber = this.getGraphOrder();
+        this.stack = [];
+        const cycle = [];
+
+        for (const v of this.vertexes) {
+            this.visited = Array(vertexNumber).fill(false);
+            console.log('\n');
+            if (this.findDFSDirectedCycle(v.id, v.id)) {
+                console.log(v.id);
+                while (this.stack.length) {
+                    const s = this.stack.pop();
+                    console.log(s);
+                }
+            }
+        }
+        return cycle;
+    }
 }
 
 export { Graph };
