@@ -93,6 +93,15 @@ const connectionMap: Array<connectionMap> = [
                 fun: (graph: Graph) => graph.getBellmanFordPath()
             }
         ]
+    },
+    {
+        category: 'cykle-i-sciezki',
+        lessons: [
+            {
+                lesson: 'znajdowanie-cyklu',
+                fun: (graph: Graph) => graph.findCycle()
+            }
+        ]
     }
 ];
 

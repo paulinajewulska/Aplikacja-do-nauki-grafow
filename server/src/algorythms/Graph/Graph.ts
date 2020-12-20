@@ -5,7 +5,8 @@ import { Query } from 'mongoose';
 class Graph {
     private _adjList: Vertex[];
     private readonly isDirected: boolean;
-    private _visited: Array<Vertex['id']> = [];
+    private _visited: Array<Vertex['id'] | boolean> = [];
+    public stack: any;
 
     get vertexes(): Vertex[] {
         return this._adjList;
@@ -15,15 +16,15 @@ class Graph {
         this._adjList = v;
     }
 
-    set visited(v: Array<Vertex['id']>) {
+    set visited(v: Array<Vertex['id'] | boolean>) {
         this._visited = v;
     }
 
-    get visited(): Array<Vertex['id']> {
+    get visited(): Array<Vertex['id'] | boolean> {
         return this._visited;
     }
 
-    addVisitedValue(v: Vertex['id']): void {
+    addVisitedValue(v: Vertex['id'] | boolean): void {
         this._visited.push(v);
     }
 
@@ -180,7 +181,7 @@ class Graph {
         }
     }
 
-    getDepthFirstSearch(start: Vertex['id']): Array<Vertex['id']> {
+    getDepthFirstSearch(start: Vertex['id']): Array<Vertex['id'] | boolean> {
         this.visited = [];
         this.depthFirstSearch(start);
         return this.visited;
@@ -204,7 +205,7 @@ class Graph {
         }
     }
 
-    getBreadthFirstSearch(start: Vertex['id']): Array<Vertex['id']> {
+    getBreadthFirstSearch(start: Vertex['id']): Array<Vertex['id'] | boolean> {
         this.visited = [];
         this.breadthFirstSearch(start);
         return this.visited;
@@ -332,6 +333,7 @@ class Graph {
                 return costs;
             }
         }
+
         for (let x = 0; x < vertexNumber; ++x) {
             for (const y of adjList[x]) {
                 const yID = this.getVertexArrayIndex(y);
@@ -351,6 +353,54 @@ class Graph {
             }
             return costs;
         }
+    }
+
+    findDFSCycle(startVertex, currVertex) {
+        const currVertexIndex = this.getIndexOfVertex(currVertex);
+
+        this.visited[currVertexIndex] = true;
+        const adjList = this.getAdjacencyList()[currVertexIndex];
+
+        for (const v of adjList) {
+            if (v !== this.stack[this.stack.length - 1]) {
+                this.stack.push(currVertex);
+                if (v === startVertex) {
+                    return true;
+                }
+                if (!this.visited[this.getVertexArrayIndex(v)] && this.findDFSCycle(startVertex, v)) {
+                    return true;
+                }
+                this.stack.pop();
+            }
+        }
+        return false;
+    }
+
+    findCycle() {
+        const vertexNumber = this.getGraphOrder();
+        this.stack = [];
+        const cycle = [];
+
+        for (const v of this.vertexes) {
+            this.visited = Array(vertexNumber).fill(false);
+            this.stack.push(-1);
+
+            console.log(v.id);
+            if (!this.findDFSCycle(v.id, v.id)) {
+                this.stack.pop();
+                console.log('NOPE\n');
+            } else {
+                while (this.stack.length) {
+                    const s = this.stack.pop();
+                    if (s > -1) {
+                        console.log(s);
+                    } else {
+                        console.log('\n');
+                    }
+                }
+            }
+        }
+        return cycle;
     }
 }
 
