@@ -80,6 +80,19 @@ const connectionMap: Array<connectionMap> = [
                 fun: (graph: Graph) => graph.getPrimMinimumSpanningTree()
             }
         ]
+    },
+    {
+        category: 'najkrotsza-sciezka-w-grafie-wazonym',
+        lessons: [
+            {
+                lesson: 'dijkstra',
+                fun: (graph: Graph) => graph.getDijkstraPath()
+            },
+            {
+                lesson: 'bellman-ford',
+                fun: (graph: Graph) => graph.getBellmanFordPath()
+            }
+        ]
     }
 ];
 

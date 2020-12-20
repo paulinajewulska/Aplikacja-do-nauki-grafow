@@ -1,5 +1,6 @@
 import { Vertex } from './Vertex';
 import { Edge } from './Edge';
+import { Query } from 'mongoose';
 
 class Graph {
     private _adjList: Vertex[];
@@ -286,6 +287,70 @@ class Graph {
         }
 
         return minSpanningTree;
+    }
+
+    getDijkstraPath() {
+        return [];
+    }
+
+    getVertexArrayIndex(id: number): number {
+        const vertex = this.vertexes.find(v => v.id === id);
+        return this.vertexes.indexOf(vertex);
+    }
+
+    getBellmanFordPath() {
+        const vertexNumber = this.getGraphOrder();
+        const costs = Array(vertexNumber).fill(Number.MAX_SAFE_INTEGER);
+        const predecessors = Array(vertexNumber).fill(-1);
+        const adjList = this.getAdjacencyList();
+        let test: boolean;
+
+        costs[0] = 0;
+
+        for (let i = 2; i < vertexNumber + 1; ++i) {
+            test = true;
+            for (let x = 0; x < vertexNumber; ++x) {
+                for (const y of adjList[x]) {
+                    const yID = this.getVertexArrayIndex(y);
+                    const xID = this.getVertexArrayIndex(x);
+                    const nextToVertex = this.vertexes.find(ver => ver.id === x);
+
+                    if (nextToVertex) {
+                        const edge = nextToVertex.edges.find(ed => ed.vertexTo === y);
+                        if (edge) {
+                            const edgeWeight = parseInt(String(edge.weight));
+                            if (costs[yID] > costs[xID] + edgeWeight) {
+                                test = false;
+                                costs[yID] = costs[xID] + edgeWeight;
+                                predecessors[yID] = xID;
+                            }
+                        }
+                    }
+                }
+            }
+            if (test) {
+                return costs;
+            }
+        }
+        for (let x = 0; x < vertexNumber; ++x) {
+            for (const y of adjList[x]) {
+                const yID = this.getVertexArrayIndex(y);
+                const xID = this.getVertexArrayIndex(x);
+                const nextToVertex = this.vertexes.find(ver => ver.id === x);
+
+                if (nextToVertex) {
+                    const edge = nextToVertex.edges.find(ed => ed.vertexTo === y);
+                    if (edge) {
+                        const edgeWeight = parseInt(String(edge.weight));
+
+                        if (costs[yID] > costs[xID] + edgeWeight) {
+                            return 'Ujemny cykl :<';
+                        }
+                    }
+                }
+            }
+            return costs;
+        }
     }
 }
 
