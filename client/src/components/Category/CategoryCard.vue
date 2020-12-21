@@ -1,9 +1,7 @@
 <template>
   <div class="category-card">
     <p class="category-card__title">{{ title }}</p>
-    <div class="category-card__button">
-      <router-link :to="url" append>{{ linkName }}</router-link>
-    </div>
+      <router-link :to="url" append class="category-card__button">{{ linkName }}</router-link>
   </div>
 </template>
 
