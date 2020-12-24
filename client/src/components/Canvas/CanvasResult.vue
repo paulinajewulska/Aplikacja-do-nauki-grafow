@@ -19,8 +19,7 @@ export default {
 @import "../../style/main.scss";
 
 .canvas-result {
-  @include grid(2, 3, 3, 4);
-  border: 1px solid $gray;
-  border-radius: 2px;
+  min-height: 5rem;
+  border-top: 1px solid $gray;
 }
 </style>

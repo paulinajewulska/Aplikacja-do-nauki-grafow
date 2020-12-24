@@ -56,6 +56,8 @@ export default {
 @include media-breakpoint-up(lg) {
   .lesson {
     width: 30%;
+    height: calc(100vh - 2rem);
+    margin: 0;
   }
 }
 </style>

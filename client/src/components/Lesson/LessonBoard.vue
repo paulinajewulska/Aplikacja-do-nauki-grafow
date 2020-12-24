@@ -44,5 +44,6 @@ export default {
 
 .lesson-board {
   @extend .board;
+  padding: 0;
 }
 </style>

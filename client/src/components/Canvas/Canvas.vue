@@ -1,14 +1,12 @@
 <template>
-  <section class="canvas">
-    <app-canvas-aside />
-    <app-canvas-board />
+  <div class="canvas">
     <app-canvas-header />
+    <app-canvas-board />
     <app-canvas-result />
-  </section>
+  </div>
 </template>
 
 <script>
-import CanvasAside from "./CanvasAside";
 import CanvasBoard from "./CanvasBoard";
 import CanvasHeader from "./CanvasHeader";
 import CanvasResult from "./CanvasResult";
@@ -16,9 +14,8 @@ import CanvasResult from "./CanvasResult";
 export default {
   name: "Canvas",
   components: {
-    AppCanvasAside: CanvasAside,
-    AppCanvasBoard: CanvasBoard,
     AppCanvasHeader: CanvasHeader,
+    AppCanvasBoard: CanvasBoard,
     AppCanvasResult: CanvasResult
   }
 };
@@ -28,20 +25,21 @@ export default {
 @import "../../style/main.scss";
 
 .canvas {
-  position: relative;
-  display: grid;
-  grid-template-columns: 10vh auto;
-  grid-template-rows: 10vh auto 10vh;
+  @include shadow;
   width: 100%;
   margin: $margin-mobile 0;
-  background-color: $light;
+  border: 1px solid $gray;
+  border-radius: 15px;
+  padding: 0;
   overflow: hidden;
 }
 
 @include media-breakpoint-up(lg) {
   .canvas {
     width: 65%;
-    margin-left: 5%;
+    height: calc(100vh - 2rem);
+    margin-top: 0;
+    margin-left: 2rem;
   }
 }
 </style>

@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       configKonva: {
-        width: 400,
-        height: 400
+        width: 350,
+        height: 350
       },
       canDrawLine: false,
       currentEdge: {}
@@ -95,11 +95,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/main.scss";
-
-.canvas-board {
-  @include grid(2, 3, 2, 3);
-}
-</style>
