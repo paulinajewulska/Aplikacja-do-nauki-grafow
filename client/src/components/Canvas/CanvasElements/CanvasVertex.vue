@@ -7,10 +7,11 @@
         x: vertex.x,
         y: vertex.y,
         radius: radius,
-        fill: '#9c9d9d',
-        // draggable: true,
-        stroke: 'black',
-        strokeWidth: 2
+        fill: '#aff4f9',
+        shadowColor: '#aff4f9',
+        shadowBlur: 1,
+        shadowOffset: { x: 1, y: 1 },
+        shadowOpacity: 0.35
       }"
       class="vertex"
       @click="
@@ -26,7 +27,8 @@
         text: vertex.id,
         x: vertex.x - 3,
         y: vertex.y - 4,
-        fill: 'black'
+        fill: 'black',
+        fontSize: 10
       }"
     />
   </div>
@@ -39,7 +41,7 @@ export default {
   name: "CanvasVertex",
   data() {
     return {
-      radius: 23,
+      radius: 25,
       dragItemId: null
     };
   },
@@ -74,6 +76,6 @@ export default {
 @import "../../../style/main";
 
 .vertex {
-  z-index: 10;
+  @include shadow($blue);
 }
 </style>

@@ -3,7 +3,7 @@
     <v-line
       :key="edge.id"
       :config="{
-        stroke: 'gray',
+        stroke: '#ffd73c',
         strokeWidth: 5,
         points: points
       }"
@@ -11,12 +11,11 @@
     />
     <v-text
       :config="{
-        text: this.isWeighted
-          ? `Waga: ${edge.weight} \n ID: ${edge.id}`
-          : `ID: ${edge.id}`,
+        text: this.isWeighted ? `(${edge.id} | ${edge.weight})` : `${edge.id}`,
         x: edgeCenter.x - 4,
         y: edgeCenter.y - 3,
-        fill: 'black'
+        fill: 'black',
+        fontSize: 10
       }"
     />
   </div>
@@ -64,11 +63,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../../style/main";
-
-.vertex {
-  z-index: 5;
-}
-</style>

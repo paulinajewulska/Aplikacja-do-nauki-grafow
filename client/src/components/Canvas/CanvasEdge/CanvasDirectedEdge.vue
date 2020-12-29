@@ -4,8 +4,8 @@
       :key="edge.id"
       :config="{
         points: points,
-        tension: 0.5,
-        stroke: 'black'
+        strokeWidth: 5,
+        stroke: '#e3c7ff'
       }"
       @click="onEdgeClick"
     />
@@ -23,19 +23,18 @@
           context.closePath();
           context.fillStrokeShape(this);
         },
-        stroke: 'black',
+        stroke: '#e3c7ff',
         strokeWidth: 4
       }"
       @click="onEdgeClick"
     />
     <v-text
       :config="{
-        text: this.isWeighted
-          ? `Waga: ${edge.weight} \n ID: ${edge.id}`
-          : `ID: ${edge.id}`,
+        text: this.isWeighted ? `(${edge.id} | ${edge.weight})` : `${edge.id}`,
         x: edgeCenter.x - 4,
         y: edgeCenter.y - 3,
-        fill: 'black'
+        fill: 'black',
+        fontSize: 10
       }"
     />
   </div>
