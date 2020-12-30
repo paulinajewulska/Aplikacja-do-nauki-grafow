@@ -19,10 +19,10 @@ export default {
 @import "../../style/main.scss";
 
 .canvas-result {
-  height: 3rem;
-  width: 100%;
   position: absolute;
   bottom: 0;
+  width: 100%;
+  height: 5rem;
   border-top: 1px solid $gray;
 }
 </style>
