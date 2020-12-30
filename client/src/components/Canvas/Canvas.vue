@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import CanvasBoard from "./CanvasBoard";
 import CanvasHeader from "./CanvasHeader";
+import CanvasBoard from "./CanvasBoard";
 import CanvasResult from "./CanvasResult";
 
 export default {
@@ -26,6 +26,7 @@ export default {
 
 .canvas {
   @include shadow;
+  position: relative;
   width: 100%;
   margin: $margin-mobile 0;
   border: 1px solid $gray;

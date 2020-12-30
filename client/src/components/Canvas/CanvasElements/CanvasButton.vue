@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="canvas-btn mr-2"
+    class="canvas-btn"
     :class="[option ? 'canvas-btn-primary' : 'canvas-btn-default']"
     @click="funOnClick"
   >
@@ -48,10 +48,15 @@ export default {
   height: 1rem;
   border: none;
   border-radius: 15px;
-  padding: 1.75rem;
+  margin-right: 0.3rem;
+  padding: 1.25rem;
 
-  @include media-breakpoint-up(sm) {
-    padding: 1.25rem;
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin: 0.3rem 0 0;
   }
 
   &-primary {
@@ -74,6 +79,7 @@ export default {
     font-size: 0.7rem;
     text-align: center;
     @include media-breakpoint-up(sm) {
+      margin: 0;
       font-size: 0.6rem;
     }
   }

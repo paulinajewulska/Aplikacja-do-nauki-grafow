@@ -1,101 +1,99 @@
 <template>
-  <section>
-    <div class="canvas-header__wrapper">
-      <div class="canvas-header w-50">
-        <p class="canvas-header__label">Węzęł</p>
-        <div class="canvas-header__buttons">
-          <app-canvas-button
-            label="dodaj"
-            :option="addVertexOption"
-            icon="fa-pen"
-            :funOnClick="toggleAddVertexOption"
-          />
-          <app-canvas-button
-            label="usuń"
-            :option="removeVertexOption"
-            icon="fa-pen"
-            :funOnClick="toggleRemoveVertexOption"
-          />
-        </div>
-      </div>
-      <div class="canvas-header w-50">
-        <p class="canvas-header__label">Krawędź</p>
-        <div class="canvas-header__buttons">
-          <app-canvas-button
-            label="dodaj"
-            :option="addEdgeOption"
-            icon="fa-pen"
-            :funOnClick="toggleAddEdgeOption"
-          />
-          <app-canvas-button
-            label="usuń"
-            :option="removeEdgeOption"
-            icon="fa-pen"
-            :funOnClick="toggleRemoveEdgeOption"
-          />
-        </div>
-      </div>
-      <div class="canvas-header w-md-50 w-100">
-        <p class="canvas-header__label">Graf</p>
-        <div class="canvas-header__buttons">
-          <app-canvas-button
-            label="skierowany"
-            :option="isDirected"
-            icon="fa-pen"
-            :funOnClick="toggleIsDirectedAll"
-          />
-          <app-canvas-button
-            label="wagowy"
-            :option="isWeighted"
-            icon="fa-pen"
-            :funOnClick="toggleIsWeighted"
-          />
-          <app-canvas-button
-            label="usuń"
-            :option="false"
-            icon="fa-pen"
-            :funOnClick="deleteAll"
-          />
-          <app-canvas-button
-            v-if="requireSelectedVertex"
-            label="wybierz węzęł"
-            :option="selectVertexAvailable"
-            icon="fa-pen"
-            :funOnClick="toggleSelectVertexAvailable"
-          />
-          <app-canvas-button
-            label="wynik"
-            :option="true"
-            icon="fa-pen"
-            :funOnClick="loadSolution"
-          />
-        </div>
-      </div>
-      <div v-if="isWeighted" class="canvas-header">
-        <p class="canvas-header__label">Graf wagowy</p>
-        <div class="canvas-header__buttons">
-          <app-canvas-button
-            label="dodaj wagę"
-            :option="addWeightToEdgeOption"
-            icon="fa-pen"
-            :funOnClick="toggleAddWeightToEdgeOption"
-          />
-          <form class="d-flex align-items-center">
-            <b-form-input
-              v-model="weight"
-              class="canvas-header__input w-50 mr-2"
-            ></b-form-input>
-            <app-canvas-button
-              label="ustaw wagę"
-              :option="true"
-              icon="fa-pen"
-              :funOnClick="setEdgeWeight"
-            />
-          </form>
-        </div>
+  <div class="canvas-header__wrapper">
+    <div class="canvas-header">
+      <p class="canvas-header__label">Węzęł</p>
+      <div class="canvas-header__buttons">
+        <app-canvas-button
+          label="dodaj"
+          :option="addVertexOption"
+          icon="fa-pen"
+          :funOnClick="toggleAddVertexOption"
+        />
+        <app-canvas-button
+          label="usuń"
+          :option="removeVertexOption"
+          icon="fa-pen"
+          :funOnClick="toggleRemoveVertexOption"
+        />
       </div>
     </div>
-  </section>
+    <div class="canvas-header">
+      <p class="canvas-header__label">Krawędź</p>
+      <div class="canvas-header__buttons">
+        <app-canvas-button
+          label="dodaj"
+          :option="addEdgeOption"
+          icon="fa-pen"
+          :funOnClick="toggleAddEdgeOption"
+        />
+        <app-canvas-button
+          label="usuń"
+          :option="removeEdgeOption"
+          icon="fa-pen"
+          :funOnClick="toggleRemoveEdgeOption"
+        />
+      </div>
+    </div>
+    <div class="canvas-header canvas-header__big">
+      <p class="canvas-header__label">Graf</p>
+      <div class="canvas-header__buttons canvas-header__big__buttons">
+        <app-canvas-button
+          label="skierowany"
+          :option="isDirected"
+          icon="fa-pen"
+          :funOnClick="toggleIsDirectedAll"
+        />
+        <app-canvas-button
+          label="wagowy"
+          :option="isWeighted"
+          icon="fa-pen"
+          :funOnClick="toggleIsWeighted"
+        />
+        <app-canvas-button
+          label="usuń"
+          :option="false"
+          icon="fa-pen"
+          :funOnClick="deleteAll"
+        />
+        <app-canvas-button
+          v-if="requireSelectedVertex"
+          label="wybierz węzęł"
+          :option="selectVertexAvailable"
+          icon="fa-pen"
+          :funOnClick="toggleSelectVertexAvailable"
+        />
+        <app-canvas-button
+          label="wynik"
+          :option="true"
+          icon="fa-pen"
+          :funOnClick="loadSolution"
+        />
+      </div>
+    </div>
+    <div v-if="isWeighted" class="canvas-header canvas-header__big">
+      <p class="canvas-header__label">Graf wagowy</p>
+      <div class="canvas-header__buttons canvas-header__big__butons">
+        <app-canvas-button
+          label="dodaj wagę"
+          :option="addWeightToEdgeOption"
+          icon="fa-pen"
+          :funOnClick="toggleAddWeightToEdgeOption"
+        />
+        <form class="d-flex align-items-center align-content-center">
+          <b-form-input
+            v-model="weight"
+            class="canvas-header__input w-50"
+          ></b-form-input>
+          <app-canvas-button
+            label="ustaw wagę"
+            :option="true"
+            icon="fa-pen"
+            :funOnClick="setEdgeWeight"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -161,7 +159,12 @@ export default {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid $gray;
+  border-left: 1px solid $gray;
   padding: 0.25rem;
+
+  @include media-breakpoint-up(lg) {
+    flex-wrap: wrap;
+  }
 
   &__label {
     font-size: 0.8rem;
@@ -169,6 +172,7 @@ export default {
 
     @include media-breakpoint-up(sm) {
       font-size: 0.55rem;
+      text-align: center;
     }
   }
 
@@ -177,6 +181,10 @@ export default {
     align-content: center;
     margin: 0;
     padding: 0;
+    @include media-breakpoint-up(lg) {
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
   }
 
   &__input {
@@ -187,6 +195,33 @@ export default {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
+    @include media-breakpoint-up(lg) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 6.3rem;
+      height: fit-content;
+    }
+  }
+
+  &__big {
+    @include media-breakpoint-up(lg) {
+      width: 6.3rem;
+
+      &__buttons {
+        flex-direction: row;
+        justify-content: center;
+
+        * {
+          &:nth-child(2n - 1) {
+            margin-right: 0.3rem;
+          }
+          &:nth-child(2n) {
+            margin-right: 0;
+          }
+        }
+      }
+    }
   }
 }
 </style>
