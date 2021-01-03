@@ -11,8 +11,8 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static('public'));
 app.use(cors());
+app.use(express.static('public'));
 mongoose.set('useCreateIndex', true);
 
 app.get('/', (req: Request, res: Response) => {
