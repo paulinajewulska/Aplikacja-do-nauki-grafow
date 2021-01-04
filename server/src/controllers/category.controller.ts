@@ -33,7 +33,7 @@ const getLesson = async (req: Request, res: Response) => {
     }
 };
 
-const getLessonSolution = (req: Request, res: Response): void => {
+const getSolution = (req: Request, res: Response): void => {
     const { vertexes, category, lesson, selectedVertex = null, isDirected = false } = req.body;
 
     const graphFun = getGraphFun(category, lesson);
@@ -49,4 +49,4 @@ const getLessonSolution = (req: Request, res: Response): void => {
         res.status(400).send(err);
     }
 };
-export { getCategories, getLessonsInCategory, getLesson, getLessonSolution };
+export { getCategories, getLessonsInCategory, getLesson, getSolution };
