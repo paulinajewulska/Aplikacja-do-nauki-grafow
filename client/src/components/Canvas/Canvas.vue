@@ -1,7 +1,7 @@
 <template>
   <div class="canvas">
-    <app-canvas-header />
     <app-canvas-board />
+    <app-canvas-header />
     <app-canvas-result />
   </div>
 </template>

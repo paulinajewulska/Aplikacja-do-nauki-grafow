@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       configKonva: {
-        width: 350,
-        height: 350
+        width: 1000,
+        height: 1000
       },
       canDrawLine: false,
       currentEdge: {}
@@ -95,3 +95,16 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../../style/main.scss";
+
+.canvas-board {
+  overflow: hidden;
+
+  canvas {
+    height: 20rem;
+    width: 100%;
+  }
+}
+</style>

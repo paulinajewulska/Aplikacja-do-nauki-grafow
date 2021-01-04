@@ -192,12 +192,12 @@ export default {
   }
 
   &__wrapper {
+    position: absolute;
+    top: 0;
     display: flex;
     flex-wrap: wrap;
     padding: 0;
     @include media-breakpoint-up(lg) {
-      position: absolute;
-      top: 0;
       right: 0;
       width: 6.3rem;
       height: fit-content;
