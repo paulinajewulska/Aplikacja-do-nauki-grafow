@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="home__text-wrapper">
-      <p class="home__text">
+      <h2 class="home__text">
         Rozpocznij naukę grafów z naszą aplikacją!
-      </p>
+      </h2>
       <router-link
         v-if="navigationList[0]"
         :to="getUrl(navigationList[0].url)"
@@ -42,8 +42,8 @@ export default {
 
   &__text {
     width: 85%;
+    margin-top: 3rem;
     margin-bottom: 2rem;
-    font-size: 1.75rem;
 
     &-wrapper {
       @extend .board;

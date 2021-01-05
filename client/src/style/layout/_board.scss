@@ -9,7 +9,6 @@
     top: 0;
     left: calc(#{$navigation-width} + #{$margin-mobile});
     width: calc(100vw - #{$navigation-width} - 3 * #{$margin-mobile});
-    min-height: calc(100vh - 2 * #{$margin-mobile});
     padding: $padding-component-mobile;
   }
 }

@@ -19,6 +19,9 @@
           :key="item.id"
           :to="getUrl(item.url)"
           class="nav__list-item"
+          :class="
+            getUrl(item.url) === vm.$route.path ? 'nav__list-item-hovered' : {}
+          "
         >
           {{ item.name }}
         </router-link>
@@ -34,7 +37,8 @@ export default {
   name: "Navigation",
   data() {
     return {
-      applicationName: "Grafy"
+      applicationName: "Grafy",
+      vm: this
     };
   },
   computed: {
@@ -75,7 +79,6 @@ export default {
   }
 
   &__list {
-    // TODO: add active class
     &-item {
       display: block;
       padding: $padding-component-mobile/2 0;
@@ -105,6 +108,12 @@ export default {
         font-size: $navigation-font-size;
 
         &:hover {
+          @include shadow($light-yellow);
+          border-radius: $border-radius;
+          background-color: $light-yellow;
+        }
+
+        &-hovered {
           @include shadow($light-yellow);
           border-radius: $border-radius;
           background-color: $light-yellow;

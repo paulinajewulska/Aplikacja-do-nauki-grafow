@@ -46,5 +46,6 @@ export default {
 .category-board {
   @extend .board;
   align-content: flex-start;
+  top: 6rem;
 }
 </style>

@@ -38,8 +38,8 @@ export default {
 @include media-breakpoint-up(lg) {
   .canvas {
     width: 65%;
-    height: calc(100vh - 2rem);
-    margin-top: 0;
+    height: calc(100vh - 8rem);
+    margin-top: 3rem;
     margin-left: 2rem;
   }
 }
