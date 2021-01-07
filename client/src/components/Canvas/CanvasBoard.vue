@@ -129,7 +129,6 @@ export default {
 
 .canvas-board {
   overflow: hidden;
-  background-color: $light;
 
   canvas {
     height: 20rem;

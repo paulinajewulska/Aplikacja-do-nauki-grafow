@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import LessonTabs from "@/components/Lesson/LessonTabs";
+import LessonTabs from "@/components/Lesson/LessonInfo";
 import Canvas from "@/components/Canvas/Canvas";
 import { mapActions } from "vuex";
 

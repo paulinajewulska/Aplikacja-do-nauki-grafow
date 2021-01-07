@@ -32,17 +32,16 @@ export default {
 @import "../../style/main";
 
 .category-card {
-  @include shadow($gray);
+  @include shadow;
   display: flex;
   align-items: center;
   align-content: flex-start;
   width: 100%;
   min-height: 10vh;
   margin: $margin-mobile 0 0;
-  border: 1px solid $gray;
   border-radius: $border-radius;
   padding: $padding-component-mobile;
-  background-color: $light;
+  background-color: $white;
   overflow: auto;
 
   &__title {
@@ -54,14 +53,14 @@ export default {
   }
 
   &__button {
-    @include shadow($yellow);
+    @include shadow($light-yellow);
     display: flex;
     justify-content: center;
     align-items: center;
     width: 20%;
     height: 100%;
     border-radius: $border-radius;
-    background-color: $yellow;
+    background-color: $light-yellow;
   }
 
   @include media-breakpoint-up(lg) {

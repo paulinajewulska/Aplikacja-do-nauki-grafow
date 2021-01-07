@@ -1,13 +1,12 @@
 <template>
   <div class="lesson">
-    <b-tabs v-if="lesson" content-class="mt-3" justified>
-      <b-tab title="Opis" active>
-        <p>{{ lesson.description }}</p>
-      </b-tab>
-      <b-tab title="Pseudokod"
-        ><p>{{ lesson.pseudocode }}</p></b-tab
-      >
-    </b-tabs>
+    <!--    <h2 class="lesson__title"></h2>-->
+    <div v-if="lesson.description" class="lesson__card">
+      {{ lesson.description }}
+    </div>
+    <div v-if="lesson.pseudocode" class="lesson__card">
+      {{ lesson.pseudocode }}
+    </div>
   </div>
 </template>
 
@@ -45,12 +44,18 @@ export default {
 @import "../../style/main";
 
 .lesson {
-  @include shadow($gray);
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin: $margin-mobile 0;
-  border: 1px solid $gray;
-  // TODO: fix border radius in original tabs
-  border-radius: $border-radius;
+
+  &__card {
+    @include shadow;
+    margin: 0 0 1rem;
+    border-radius: $border-radius;
+    padding: 1rem;
+    background-color: $white;
+  }
 }
 
 @include media-breakpoint-up(lg) {

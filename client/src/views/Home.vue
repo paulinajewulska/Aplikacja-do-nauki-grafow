@@ -60,7 +60,7 @@ export default {
   }
 
   &__button {
-    @include shadow($yellow);
+    @include shadow($light-yellow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,7 +69,7 @@ export default {
     border: none;
     border-radius: $border-radius;
     padding: 0.75rem;
-    background-color: $yellow;
+    background-color: $light-yellow;
     @include media-breakpoint-up(lg) {
       margin-bottom: 4rem;
     }

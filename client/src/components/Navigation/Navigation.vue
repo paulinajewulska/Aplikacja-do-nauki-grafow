@@ -64,11 +64,11 @@ export default {
 @import "../../style/main";
 
 .nav {
-  @include shadow($yellow);
+  @include shadow;
   margin: $margin-mobile;
   border-radius: $border-radius;
   padding: $padding-component-mobile;
-  background-color: $yellow;
+  background-color: $white;
 
   &__logo {
     font-size: $font-size-header-mobile;

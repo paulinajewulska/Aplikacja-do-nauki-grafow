@@ -1,8 +1,9 @@
 // colors
 $white: #fff;
+$almost-white: #f9fcfb;
 $black: #1e1f23;
 $gray: #ebebeb;
-$yellow: #ffd73c;
+$shadow-gray: #8B8E92;
 $light-yellow: #ffe168;
 $blue: #aff4f9;
 $light-blue: #c6ede3;
@@ -25,7 +26,7 @@ $font-size-header-mobile: 1.5rem;
 $font-size: 1rem;
 
 // variables
-$light: $white;
+$light: $almost-white;
 $dark: $black;
 $font-primary: $black;
 $font-secondary: $gray;

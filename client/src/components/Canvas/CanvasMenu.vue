@@ -70,6 +70,7 @@
           label="wynik"
           :option="true"
           icon="fa-pen"
+          :style="{ backgroundColor: '#aff4f9' }"
           :funOnClick="loadSolution"
         />
       </div>
@@ -216,6 +217,7 @@ export default {
           &:nth-child(2n - 1) {
             margin-right: 0.3rem;
           }
+
           &:nth-child(2n) {
             margin-right: 0;
           }

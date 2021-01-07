@@ -29,10 +29,10 @@ export default {
   position: relative;
   width: 100%;
   margin: $margin-mobile 0;
-  border: 1px solid $gray;
   border-radius: 15px;
   padding: 0;
   overflow: hidden;
+  background-color: $white;
 }
 
 @include media-breakpoint-up(lg) {

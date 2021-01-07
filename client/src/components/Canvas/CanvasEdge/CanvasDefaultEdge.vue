@@ -50,7 +50,7 @@ export default {
     strokeColor() {
       return this.isWeighted && this.selectedEdge === this.edge.id
         ? "#e3c7ff"
-        : "#ffd73c";
+        : "#ffe168";
     },
     edgeCenter() {
       return {

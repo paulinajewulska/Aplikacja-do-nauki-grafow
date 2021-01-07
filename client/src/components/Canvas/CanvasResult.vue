@@ -24,6 +24,6 @@ export default {
   width: 100%;
   height: 5rem;
   border-top: 1px solid $gray;
-  background-color: $light;
+  background-color: $white;
 }
 </style>
