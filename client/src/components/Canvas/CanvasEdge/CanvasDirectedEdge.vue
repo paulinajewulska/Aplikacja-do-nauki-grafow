@@ -5,7 +5,7 @@
       :config="{
         points: points,
         strokeWidth: 5,
-        stroke: '#e3c7ff'
+        stroke: strokeColor
       }"
       @click="onEdgeClick"
     />
@@ -23,7 +23,7 @@
           context.closePath();
           context.fillStrokeShape(this);
         },
-        stroke: '#e3c7ff',
+        stroke: strokeColor,
         strokeWidth: 4
       }"
       @click="onEdgeClick"
@@ -58,7 +58,11 @@ export default {
   },
   computed: {
     ...mapGetters(["isWeighted"]),
-    ...mapGetters("edge", ["removeEdgeOption", "addWeightToEdgeOption"]),
+    ...mapGetters("edge", [
+      "removeEdgeOption",
+      "addWeightToEdgeOption",
+      "selectedEdge"
+    ]),
     points() {
       return [
         this.edge.points.start.x,
@@ -66,6 +70,11 @@ export default {
         this.edge.points.end.x,
         this.edge.points.end.y
       ];
+    },
+    strokeColor() {
+      return this.isWeighted && this.selectedEdge === this.edge.id
+        ? "#e3c7ff"
+        : "#ffd73c";
     },
     angle() {
       const dx = this.points[2] - this.points[0];
@@ -80,13 +89,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("edge", ["selectedEdge"]),
+    ...mapMutations("edge", ["setSelectedEdge"]),
     ...mapActions("edge", ["removeEdge"]),
     onEdgeClick() {
       if (this.removeEdgeOption) {
         this.removeEdge({ id: this.edge.id });
       } else if (this.addWeightToEdgeOption) {
-        this.selectedEdge(this.edge.id);
+        this.setSelectedEdge(this.edge.id);
       }
     }
   }

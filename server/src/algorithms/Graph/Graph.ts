@@ -1,6 +1,5 @@
 import { Vertex } from './Vertex';
 import { Edge } from './Edge';
-import { Query } from 'mongoose';
 
 class Graph {
     private _adjList: Vertex[];

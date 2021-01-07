@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CanvasHeader from "./CanvasHeader";
+import CanvasHeader from "./CanvasMenu";
 import CanvasBoard from "./CanvasBoard";
 import CanvasResult from "./CanvasResult";
 

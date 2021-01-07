@@ -2,14 +2,24 @@
   <div class="canvas-board">
     <v-stage
       ref="stage"
+      class="stage"
       :config="configKonva"
       @click="addVertexOption ? addNewVertex($event) : {}"
       @mousedown="handleMouseDown"
-      @mouseup="handleMouseUp"
       @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
     >
       <v-layer>
         <app-canvas-edge v-for="e of edges" :key="`edge-${e.id}`" :edge="e" />
+        <v-line
+          v-for="line in connections"
+          :key="100 * line.id"
+          :config="{
+            stroke: '#ffd73c',
+            strokeWidth: 5,
+            points: line.points
+          }"
+        />
         <app-canvas-vertex v-for="v of vertexes" :vertex="v" :key="v.id" />
       </v-layer>
     </v-stage>
@@ -31,7 +41,8 @@ export default {
         height: 1000
       },
       canDrawLine: false,
-      currentEdge: {}
+      currentEdge: {},
+      connections: []
     };
   },
   computed: {
@@ -67,21 +78,38 @@ export default {
         };
         this.currentEdge.id = this.availableEdgeId;
       }
+      this.connections.push({
+        id: Math.random(),
+        points: [e.target.x(), e.target.y()]
+      });
     },
     handleMouseMove(e) {
       if (!this.canDrawLine) return;
       if (this.addEdgeOption) {
         const pos = e.target.getStage().getPointerPosition();
         this.currentEdge.end = { x: pos.x, y: pos.y };
+        const lastLine = this.connections[this.connections.length - 1];
+        lastLine.points = [
+          lastLine.points[0],
+          lastLine.points[1],
+          pos.x,
+          pos.y
+        ];
       }
-      //   TODO: fix it, should show drawing line all time
     },
     handleMouseUp(e) {
-      if (!(e.target instanceof Konva.Circle)) return;
+      if (!(e.target instanceof Konva.Circle)) {
+        this.connections = [];
+        return;
+      }
       if (this.addEdgeOption) {
+        this.connections = [];
         this.canDrawLine = false;
         const clickedVertex = this.vertexes.find(v => v.id === e.target.id());
-        if (clickedVertex.id) {
+        if (
+          clickedVertex.id &&
+          clickedVertex.id !== this.currentEdge.start.vertex
+        ) {
           this.currentEdge.end = {
             vertex: clickedVertex.id,
             x: clickedVertex.x,
@@ -101,6 +129,7 @@ export default {
 
 .canvas-board {
   overflow: hidden;
+  background-color: $light;
 
   canvas {
     height: 20rem;

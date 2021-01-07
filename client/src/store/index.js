@@ -22,7 +22,8 @@ export default new Vuex.Store({
     lessonUrl: null,
     selectVertexAvailable: false,
     selectedVertex: null,
-    result: null
+    result: null,
+    selectedMenuOption: null
   },
   getters: {
     getBaseURL: state => state.baseURL,
@@ -35,7 +36,9 @@ export default new Vuex.Store({
     isDirected: state => state.isDirected,
     categoryUrl: state => state.categoryUrl,
     lessonUrl: state => state.lessonUrl,
-    result: state => state.result
+    result: state => state.result,
+    selectedVertex: state => state.selectedVertex,
+    selectedMenuOption: state => state.selectedMenuOption
   },
   mutations: {
     saveNavigationList(state, navigationList) {
@@ -63,7 +66,9 @@ export default new Vuex.Store({
       state.lessonUrl = lesson;
     },
     saveSelectedVertex: (state, vertexID) => (state.selectedVertex = vertexID),
-    saveResult: (state, result) => (state.result = result)
+    saveResult: (state, result) => (state.result = result),
+    selectMenuOption: (state, option = null) =>
+      (state.selectedMenuOption = option)
   },
   actions: {
     loadNavigationList: async ({ commit, state }) => {
@@ -108,7 +113,7 @@ export default new Vuex.Store({
       );
       const lesson = await response.json();
       commit("saveLesson", lesson);
-      commit("saveSelectedVertex", null);
+      commit("saveSelectedVertex", 0);
     },
     loadSolution: async ({ commit, state, rootState }) => {
       const vertexes = rootState.vertex.vertexes.map(v => ({
@@ -141,6 +146,12 @@ export default new Vuex.Store({
     deleteAll: ({ commit }) => {
       commit("edge/removeAllEdges", null, { root: true });
       commit("vertex/removeAllVertexes", null, { root: true });
+    },
+    setAllOptions: ({ commit }) => {
+      commit("vertex/setAddVertexOption", false, { root: true });
+      commit("vertex/setRemoveVertexOption", false, { root: true });
+      commit("edge/setAddEdgeOption", false, { root: true });
+      commit("edge/setRemoveEdgeOption", false, { root: true });
     }
   },
   modules: { edge, vertex }

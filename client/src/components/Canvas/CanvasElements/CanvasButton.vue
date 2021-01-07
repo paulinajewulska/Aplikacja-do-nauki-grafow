@@ -3,7 +3,7 @@
     type="button"
     class="canvas-btn"
     :class="[option ? 'canvas-btn-primary' : 'canvas-btn-default']"
-    @click="funOnClick"
+    @click="setSelectedMenuOption"
   >
     <i class="canvas-btn__icon fas" :class="icon"></i>
     <span class="canvas-btn__label">{{ label }}</span>
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapActions } from "vuex";
+
 export default {
   name: "CanvasButton",
   data() {
@@ -24,12 +26,31 @@ export default {
     option: {
       required: true
     },
+    optionName: {
+      required: false
+    },
     icon: {
       required: true,
       default: "fa-pen"
     },
     funOnClick: {
       required: true
+    }
+  },
+  computed: {
+    ...mapGetters(["selectedMenuOption"])
+  },
+  methods: {
+    ...mapMutations(["selectMenuOption"]),
+    ...mapActions(["setAllOptions"]),
+    setSelectedMenuOption() {
+      this.setAllOptions();
+      if (this.selectedMenuOption === this.optionName) {
+        this.selectMenuOption(null);
+      } else {
+        this.selectMenuOption(this.optionName);
+        this.funOnClick(true);
+      }
     }
   }
 };

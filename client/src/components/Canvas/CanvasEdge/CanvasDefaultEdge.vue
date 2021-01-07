@@ -3,7 +3,7 @@
     <v-line
       :key="edge.id"
       :config="{
-        stroke: '#ffd73c',
+        stroke: strokeColor,
         strokeWidth: 5,
         points: points
       }"
@@ -34,7 +34,11 @@ export default {
   },
   computed: {
     ...mapGetters(["isWeighted"]),
-    ...mapGetters("edge", ["removeEdgeOption", "addWeightToEdgeOption"]),
+    ...mapGetters("edge", [
+      "removeEdgeOption",
+      "addWeightToEdgeOption",
+      "selectedEdge"
+    ]),
     points() {
       return [
         this.edge.points.start.x,
@@ -42,6 +46,11 @@ export default {
         this.edge.points.end.x,
         this.edge.points.end.y
       ];
+    },
+    strokeColor() {
+      return this.isWeighted && this.selectedEdge === this.edge.id
+        ? "#e3c7ff"
+        : "#ffd73c";
     },
     edgeCenter() {
       return {
@@ -51,13 +60,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("edge", ["selectedEdge"]),
+    ...mapMutations("edge", ["setSelectedEdge"]),
     ...mapActions("edge", ["removeEdge"]),
     onEdgeClick() {
       if (this.removeEdgeOption) {
         this.removeEdge({ id: this.edge.id });
       } else if (this.addWeightToEdgeOption) {
-        this.selectedEdge(this.edge.id);
+        this.setSelectedEdge(this.edge.id);
       }
     }
   }

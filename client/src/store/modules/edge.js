@@ -31,7 +31,7 @@ class Edge {
     id = null,
     start = null,
     end = null,
-    weight = 1
+    weight = 0
   ) {
     this._vertexFrom = vertexFrom;
     this._vertexTo = vertexTo;
@@ -49,7 +49,7 @@ const state = () => ({
   removeEdgeOption: false,
   addWeightToEdgeOption: false,
   edges: [],
-  selectedEdge: null
+  selectedEdge: 0
 });
 
 const getters = {
@@ -71,17 +71,11 @@ const getters = {
 };
 
 const mutations = {
-  toggleAddEdgeOption(state) {
-    if (state.removeEdgeOption) {
-      state.removeEdgeOption = false;
-    }
-    state.addEdgeOption = !state.addEdgeOption;
+  setAddEdgeOption(state, value) {
+    state.addEdgeOption = value;
   },
-  toggleRemoveEdgeOption(state) {
-    if (state.addEdgeOption) {
-      state.addEdgeOption = false;
-    }
-    state.removeEdgeOption = !state.removeEdgeOption;
+  setRemoveEdgeOption(state, value) {
+    state.removeEdgeOption = value;
   },
   addEdge(state, edge) {
     state.edges.push(edge);
@@ -106,19 +100,14 @@ const mutations = {
       edge.weight = weight;
     }
   },
-  selectedEdge: (state, id) => (state.selectedEdge = id)
+  setSelectedEdge: (state, id) => (state.selectedEdge = id)
 };
 
 const actions = {
   addEdge: ({ commit, state }, payload) => {
-    if (!payload.start || !payload.end) {
-      throw `Vertex does not exist.`;
-    }
-    if (state.edges.some(v => v.id === payload.id)) {
-      throw `Edge with ${payload.id} id already exists.`;
-    }
+    if (!payload.start || !payload.end) return;
+    if (state.edges.some(v => v.id === payload.id)) return;
 
-    // TODO: add checking if vertex exists
     const edge = new Edge(
       payload.start.vertex,
       payload.end.vertex,
@@ -130,21 +119,11 @@ const actions = {
       }
     );
     commit("addEdge", edge);
-    commit(
-      "vertex/addEdge",
-      {
-        id: payload.id,
-        vertexToID: payload.end.vertex,
-        vertexFromID: payload.start.vertex,
-        weight: edge.weight
-      },
-      { root: true }
-    );
+    commit("vertex/addEdge", edge, { root: true });
   },
   removeEdge: ({ commit, state }, payload) => {
-    if (!state.edges.some(v => v.id === payload.id)) {
-      throw `Edge with ${payload.id} id does not exist.`;
-    }
+    if (!state.edges.some(v => v.id === payload.id)) return;
+
     const edge = state.edges.find(e => e.id === payload.id);
     commit("removeEdge", edge.id);
     commit(
@@ -161,18 +140,16 @@ const actions = {
     if (!state.edges.some(v => v.id === state.selectedEdge)) {
       throw `Edge with ${state.selectedEdge.id} id does not exist.`;
     }
-    const edge = state.edges.find(e => e.id === state.selectedEdge);
+    // const edge = state.edges.find(e => e.id === state.selectedEdge);
     commit("setWeight", weight);
-    commit(
-      "vertex/updateEdge",
-      {
-        vertexFromID: edge.vertexFrom,
-        vertexToID: edge.vertexTo,
-        id: edge.id,
-        weight: weight
-      },
-      { root: true }
-    );
+    // commit(
+    //     "vertex/updateEdge",
+    //     {
+    //         id: edge.id,
+    //         weight: weight
+    //     },
+    //     {root: true}
+    // );
   }
 };
 
@@ -183,3 +160,5 @@ export default {
   actions,
   mutations
 };
+
+export { Edge };

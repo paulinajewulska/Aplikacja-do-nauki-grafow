@@ -6,14 +6,16 @@
         <app-canvas-button
           label="dodaj"
           :option="addVertexOption"
+          optionName="addVertexOption"
           icon="fa-pen"
-          :funOnClick="toggleAddVertexOption"
+          :funOnClick="setAddVertexOption"
         />
         <app-canvas-button
           label="usuń"
           :option="removeVertexOption"
+          optionName="removeVertexOption"
           icon="fa-pen"
-          :funOnClick="toggleRemoveVertexOption"
+          :funOnClick="setRemoveVertexOption"
         />
       </div>
     </div>
@@ -23,14 +25,16 @@
         <app-canvas-button
           label="dodaj"
           :option="addEdgeOption"
+          optionName="addEdgeOption"
           icon="fa-pen"
-          :funOnClick="toggleAddEdgeOption"
+          :funOnClick="setAddEdgeOption"
         />
         <app-canvas-button
           label="usuń"
           :option="removeEdgeOption"
+          optionName="removeEdgeOption"
           icon="fa-pen"
-          :funOnClick="toggleRemoveEdgeOption"
+          :funOnClick="setRemoveEdgeOption"
         />
       </div>
     </div>
@@ -47,7 +51,7 @@
           label="wagowy"
           :option="isWeighted"
           icon="fa-pen"
-          :funOnClick="toggleIsWeighted"
+          :funOnClick="toggleWeightedOptions"
         />
         <app-canvas-button
           label="usuń"
@@ -73,15 +77,10 @@
     <div v-if="isWeighted" class="canvas-header canvas-header__big">
       <p class="canvas-header__label">Graf wagowy</p>
       <div class="canvas-header__buttons canvas-header__big__butons">
-        <app-canvas-button
-          label="dodaj wagę"
-          :option="addWeightToEdgeOption"
-          icon="fa-pen"
-          :funOnClick="toggleAddWeightToEdgeOption"
-        />
         <form class="d-flex align-items-center align-content-center">
           <b-form-input
             v-model="weight"
+            :number="true"
             class="canvas-header__input w-50"
           ></b-form-input>
           <app-canvas-button
@@ -132,13 +131,10 @@ export default {
       "toggleIsWeighted",
       "toggleSelectVertexAvailable"
     ]),
-    ...mapMutations("vertex", [
-      "toggleAddVertexOption",
-      "toggleRemoveVertexOption"
-    ]),
+    ...mapMutations("vertex", ["setAddVertexOption", "setRemoveVertexOption"]),
     ...mapMutations("edge", [
-      "toggleAddEdgeOption",
-      "toggleRemoveEdgeOption",
+      "setAddEdgeOption",
+      "setRemoveEdgeOption",
       "toggleAddWeightToEdgeOption"
     ]),
     toggleIsDirectedAll() {
@@ -147,6 +143,10 @@ export default {
     },
     setEdgeWeight() {
       this.updateEdge(this.weight);
+    },
+    toggleWeightedOptions() {
+      this.toggleIsWeighted();
+      this.toggleAddWeightToEdgeOption();
     }
   }
 };

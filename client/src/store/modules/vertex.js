@@ -1,32 +1,4 @@
-// TODO: REMOVE IT
-class Edge {
-  get vertexFrom() {
-    return this._vertexFrom;
-  }
-
-  get vertexTo() {
-    return this._vertexTo;
-  }
-
-  get id() {
-    return this._id;
-  }
-
-  get weight() {
-    return this._weight;
-  }
-
-  set weight(weight) {
-    this._weight = weight;
-  }
-
-  constructor(vertexFrom = null, vertexTo = null, id = null, weight = null) {
-    this._vertexFrom = vertexFrom;
-    this._vertexTo = vertexTo;
-    this._id = id;
-    this._weight = weight;
-  }
-}
+import { Edge } from "./edge";
 
 class Vertex {
   get edges() {
@@ -50,17 +22,21 @@ class Vertex {
   }
 
   addGraphEdge(edge) {
-    if (!edge) {
-      throw `Edge not provided.`;
-    }
-    this._edges.push(edge);
+    if (!edge) return;
+    this._edges.push(
+      new Edge(
+        edge._vertexFrom,
+        edge._vertexTo,
+        edge._id,
+        edge._points._start,
+        edge._points._end,
+        edge._weight
+      )
+    );
   }
 
   removeEdge(id) {
-    if (!this._edges.some(e => e.id === id)) {
-      throw `Edge with ${id} id doesn't exist.`;
-    }
-
+    if (!this._edges.some(e => e.id === id)) return;
     this._edges = this._edges.filter(e => e.id !== id);
   }
 
@@ -107,13 +83,10 @@ const getters = {
 
 const mutations = {
   addVertex(state, v) {
-    state.vertexes.push(new Vertex(v.x, v.y, v.id, v.weight));
+    state.vertexes.push(new Vertex(v.x, v.y, v.id));
   },
-  toggleAddVertexOption(state) {
-    if (state.removeVertexOption) {
-      state.removeVertexOption = false;
-    }
-    state.addVertexOption = !state.addVertexOption;
+  setAddVertexOption(state, value) {
+    state.addVertexOption = value;
   },
   removeVertex(state, id) {
     state.vertexes.splice(
@@ -124,52 +97,25 @@ const mutations = {
       v.edges = v.edges.filter(e => e.vertexTo !== id);
     }
   },
-  toggleRemoveVertexOption(state) {
-    if (state.addVertexOption) {
-      state.addVertexOption = false;
-    }
-    state.removeVertexOption = !state.removeVertexOption;
+  setRemoveVertexOption(state, value) {
+    state.removeVertexOption = value;
   },
-  // TODO: refactor it
   addEdge(state, payload) {
-    if (!state.vertexes.some(v => v.id === payload.vertexToID)) {
-      throw `Vertex with ${payload.vertexToID} does not exists.`;
-    }
-    if (!state.vertexes.some(v => v.id === payload.vertexFromID)) {
-      throw `Vertex with ${payload.vertexFromID} does not exists.`;
-    }
+    if (!state.vertexes.some(v => v.id === payload._vertexTo)) return;
+    if (!state.vertexes.some(v => v.id === payload._vertexFrom)) return;
+    if (payload._vertexTo === payload._vertexFrom) return;
 
-    if (payload.vertexToID === payload.vertexFromID) return;
-
-    const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
-    vertexFrom.addGraphEdge(
-      new Edge(
-        payload.vertexFromID,
-        payload.vertexToID,
-        payload.id,
-        payload.weight
-      )
-    );
+    const vertexFrom = state.vertexes.find(v => v.id === payload._vertexFrom);
+    vertexFrom.addGraphEdge(payload);
 
     if (!this.state.isDirected) {
-      const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
-      vertexTo.addGraphEdge(
-        new Edge(
-          payload.vertexToID,
-          payload.vertexFromID,
-          payload.id,
-          payload.weight
-        )
-      );
+      const vertexTo = state.vertexes.find(v => v.id === payload._vertexTo);
+      vertexTo.addGraphEdge(payload);
     }
   },
   removeEdge(state, payload) {
-    if (!state.vertexes.some(v => v.id !== payload.vertexToID)) {
-      throw `Vertex with ${payload.vertexToID} does not exists.`;
-    }
-    if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) {
-      throw `Vertex with ${payload.vertexFromID} does not exists.`;
-    }
+    if (!state.vertexes.some(v => v.id !== payload.vertexToID)) return;
+    if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) return;
 
     const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
     vertexFrom.removeEdge(payload.id);
@@ -179,24 +125,24 @@ const mutations = {
       vertexTo.removeEdge(payload.id);
     }
   },
-  updateEdge(state, payload) {
-    if (!state.vertexes.some(v => v.id !== payload.vertexToID)) {
-      throw `Vertex with ${payload.vertexToID} does not exists.`;
-    }
-    if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) {
-      throw `Vertex with ${payload.vertexFromID} does not exists.`;
-    }
-
-    const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
-    const edgeFrom = vertexFrom.edges.find(e => e.id === payload.id);
-    edgeFrom.weight = payload.weight;
-
-    if (!this.state.isDirected) {
-      const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
-      const edgeTo = vertexTo.edges.find(e => e.id === payload.id);
-      edgeTo.weight = payload.weight;
-    }
-  },
+  // updateEdge(state, payload) {
+  //   if (!state.vertexes.some(v => v.id !== payload.vertexToID)) {
+  //     throw `Vertex with ${payload.vertexToID} does not exists.`;
+  //   }
+  //   if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) {
+  //     throw `Vertex with ${payload.vertexFromID} does not exists.`;
+  //   }
+  //
+  //   const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
+  //   const edgeFrom = vertexFrom.edges.find(e => e.id === payload.id);
+  //   edgeFrom.weight = payload.weight;
+  //
+  //   if (!this.state.isDirected) {
+  //     const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
+  //     const edgeTo = vertexTo.edges.find(e => e.id === payload.id);
+  //     edgeTo.weight = payload.weight;
+  //   }
+  // },
   removeAllVertexes: state => (state.vertexes = [])
 };
 

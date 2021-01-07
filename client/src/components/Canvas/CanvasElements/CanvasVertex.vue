@@ -7,8 +7,8 @@
         x: vertex.x,
         y: vertex.y,
         radius: radius,
-        fill: '#aff4f9',
-        shadowColor: '#aff4f9',
+        fill: fillColor,
+        shadowColor: fillColor,
         shadowBlur: 1,
         shadowOffset: { x: 1, y: 1 },
         shadowOpacity: 0.35
@@ -52,8 +52,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["selectVertexAvailable"]),
-    ...mapGetters("vertex", ["vertexesNumber", "removeVertexOption"])
+    ...mapGetters([
+      "selectVertexAvailable",
+      "requireSelectedVertex",
+      "selectedVertex"
+    ]),
+    ...mapGetters("vertex", ["vertexesNumber", "removeVertexOption"]),
+    fillColor() {
+      return this.requireSelectedVertex &&
+        this.selectedVertex === this.vertex.id
+        ? "#e3c7ff"
+        : "#aff4f9";
+    }
   },
   methods: {
     ...mapMutations(["saveSelectedVertex"]),
