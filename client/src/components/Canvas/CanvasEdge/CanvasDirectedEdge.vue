@@ -47,7 +47,9 @@ export default {
   name: "CanvasDirectedEdge",
   data() {
     return {
-      size: 10
+      size: 10,
+      radius: 25,
+      d: 5
     };
   },
   props: {
@@ -64,11 +66,19 @@ export default {
       "selectedEdge"
     ]),
     points() {
+      const x = this.edge.points.start.x - this.edge.points.end.x;
+      const y = this.edge.points.start.y - this.edge.points.end.y;
+      const z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      const dz = this.radius + this.d;
+
+      const dx = (x * dz) / z;
+      const dy = (y * dz) / z;
+
       return [
-        this.edge.points.start.x,
-        this.edge.points.start.y,
-        this.edge.points.end.x,
-        this.edge.points.end.y
+        this.edge.points.start.x - dx,
+        this.edge.points.start.y - dy,
+        this.edge.points.end.x + dx,
+        this.edge.points.end.y + dy
       ];
     },
     strokeColor() {

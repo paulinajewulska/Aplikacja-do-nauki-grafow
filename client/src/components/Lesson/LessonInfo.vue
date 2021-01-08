@@ -1,8 +1,7 @@
 <template>
   <div class="lesson">
-    <!--    <h2 class="lesson__title"></h2>-->
     <div v-if="lesson.description" class="lesson__card">
-      {{ lesson.description }}
+      {{ desc }}
     </div>
     <div v-if="lesson.pseudocode" class="lesson__card">
       {{ lesson.pseudocode }}
@@ -16,16 +15,17 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "LessonTabs",
   computed: {
-    ...mapGetters({ lesson: "lesson" })
+    ...mapGetters({ lesson: "lesson" }),
+    desc() {
+      console.log(this.lesson.description);
+      return this.lesson.description.replaceAll("\\n", " \r\n");
+    }
   },
   methods: {
     ...mapActions(["loadLesson"]),
     fetchData() {
       try {
-        this.loadLesson({
-          category: this.$route.params.category,
-          lesson: this.$route.params.lesson
-        });
+        this.loadLesson();
       } catch (err) {
         console.log(err.toString());
       }
@@ -55,6 +55,7 @@ export default {
     border-radius: $border-radius;
     padding: 1rem;
     background-color: $white;
+    white-space: pre-line;
   }
 }
 
