@@ -1,7 +1,6 @@
 <template>
   <div class="lesson-board">
     <app-lesson-tabs></app-lesson-tabs>
-    <!-- TODO: add canvas clue -->
     <app-canvas></app-canvas>
   </div>
 </template>

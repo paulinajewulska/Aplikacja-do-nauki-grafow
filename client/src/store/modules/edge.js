@@ -137,19 +137,18 @@ const actions = {
     );
   },
   updateEdge: ({ commit, state }, weight) => {
-    if (!state.edges.some(v => v.id === state.selectedEdge)) {
-      throw `Edge with ${state.selectedEdge.id} id does not exist.`;
-    }
-    // const edge = state.edges.find(e => e.id === state.selectedEdge);
+    if (!state.edges.some(v => v.id === state.selectedEdge)) return;
+
+    const edge = state.edges.find(e => e.id === state.selectedEdge);
     commit("setWeight", weight);
-    // commit(
-    //     "vertex/updateEdge",
-    //     {
-    //         id: edge.id,
-    //         weight: weight
-    //     },
-    //     {root: true}
-    // );
+    commit(
+      "vertex/updateEdge",
+      {
+        id: edge.id,
+        weight: weight
+      },
+      { root: true }
+    );
   }
 };
 

@@ -161,10 +161,13 @@ export default {
   flex-direction: column;
   border-bottom: 1px solid $gray;
   border-left: 1px solid $gray;
+  border-right: 1px solid $gray;
   padding: 0.25rem;
+  width: 50%;
+  flex-wrap: wrap;
 
   @include media-breakpoint-up(lg) {
-    flex-wrap: wrap;
+    width: fit-content;
   }
 
   &__label {

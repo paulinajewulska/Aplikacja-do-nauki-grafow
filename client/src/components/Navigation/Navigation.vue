@@ -20,7 +20,9 @@
           :to="getUrl(item.url)"
           class="nav__list-item"
           :class="
-            getUrl(item.url) === vm.$route.path ? 'nav__list-item-hovered' : {}
+            item.url === vm.$route.path.split('/')[1]
+              ? 'nav__list-item-hovered'
+              : {}
           "
         >
           {{ item.name }}
@@ -64,11 +66,11 @@ export default {
 @import "../../style/main";
 
 .nav {
-  @include shadow;
+  @include shadow(#515357);
   margin: $margin-mobile;
   border-radius: $border-radius;
   padding: $padding-component-mobile;
-  background-color: $white;
+  background-color: $yellow;
 
   &__logo {
     font-size: $font-size-header-mobile;
