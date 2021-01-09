@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="this.edge.points">
     <v-line
       :key="edge.id"
       :config="{
@@ -8,6 +8,7 @@
         points: points
       }"
       @click="onEdgeClick()"
+      @touchstart="onEdgeClick"
     />
     <v-text
       :config="{

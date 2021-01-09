@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="edge" v-if="this.edge.points">
     <v-line
       :key="edge.id"
       :config="{
@@ -8,6 +8,7 @@
         stroke: strokeColor
       }"
       @click="onEdgeClick"
+      @touchstart="onEdgeClick"
     />
     <v-shape
       :config="{
@@ -27,6 +28,7 @@
         strokeWidth: 4
       }"
       @click="onEdgeClick"
+      @touchstart="onEdgeClick"
     />
     <v-text
       :config="{

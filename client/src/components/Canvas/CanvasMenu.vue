@@ -38,7 +38,7 @@
         />
       </div>
     </div>
-    <div class="canvas-header canvas-header__big">
+    <div class="canvas-header canvas-header__big long">
       <p class="canvas-header__label">Graf</p>
       <div class="canvas-header__buttons canvas-header__big__buttons">
         <app-canvas-button
@@ -81,7 +81,7 @@
         <form class="d-flex align-items-center align-content-center">
           <b-form-input
             v-model="weight"
-            :number="true"
+            type="number"
             class="canvas-header__input w-50"
           ></b-form-input>
           <app-canvas-button
@@ -193,6 +193,7 @@ export default {
 
   &__input {
     border-radius: $border-radius;
+    margin-right: 0.2rem;
   }
 
   &__wrapper {
@@ -201,6 +202,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
+    background-color: $light;
     @include media-breakpoint-up(lg) {
       right: 0;
       width: 6.3rem;
@@ -228,5 +230,9 @@ export default {
       }
     }
   }
+}
+
+.long {
+  width: 100%;
 }
 </style>

@@ -21,6 +21,13 @@
           ? selectVertex($event)
           : {}
       "
+      @touchstart="
+        removeVertexOption
+          ? removeClickedVertex($event)
+          : selectVertexAvailable
+          ? selectVertex($event)
+          : {}
+      "
     ></v-circle>
     <v-text
       :config="{
