@@ -125,24 +125,20 @@ const mutations = {
       vertexTo.removeEdge(payload.id);
     }
   },
-  // updateEdge(state, payload) {
-  //   if (!state.vertexes.some(v => v.id !== payload.vertexToID)) {
-  //     throw `Vertex with ${payload.vertexToID} does not exists.`;
-  //   }
-  //   if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) {
-  //     throw `Vertex with ${payload.vertexFromID} does not exists.`;
-  //   }
-  //
-  //   const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
-  //   const edgeFrom = vertexFrom.edges.find(e => e.id === payload.id);
-  //   edgeFrom.weight = payload.weight;
-  //
-  //   if (!this.state.isDirected) {
-  //     const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
-  //     const edgeTo = vertexTo.edges.find(e => e.id === payload.id);
-  //     edgeTo.weight = payload.weight;
-  //   }
-  // },
+  updateEdge(state, payload) {
+    if (!state.vertexes.some(v => v.id !== payload.vertexToID)) return;
+    if (!state.vertexes.some(v => v.id !== payload.vertexFromID)) return;
+
+    const vertexFrom = state.vertexes.find(v => v.id === payload.vertexFromID);
+    const edgeFrom = vertexFrom.edges.find(e => e.id === payload.id);
+    edgeFrom.weight = payload.weight;
+
+    if (!this.state.isDirected) {
+      const vertexTo = state.vertexes.find(v => v.id === payload.vertexToID);
+      const edgeTo = vertexTo.edges.find(e => e.id === payload.id);
+      edgeTo.weight = payload.weight;
+    }
+  },
   removeAllVertexes: state => (state.vertexes = [])
 };
 

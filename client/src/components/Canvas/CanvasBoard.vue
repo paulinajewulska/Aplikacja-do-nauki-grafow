@@ -119,7 +119,37 @@ export default {
         }
         this.currentEdge = {};
       }
+    },
+    addNewVertexMobile(stage) {
+      stage.on("touchstart", e => {
+        if (this.addVertexOption) {
+          this.addNewVertex(e);
+        }
+      });
+      stage.on("touchmove", e => {
+        if (this.addEdgeOption) {
+          this.handleMouseMove(e);
+        }
+      });
+      stage.on("touchend", e => {
+        if (this.addEdgeOption) {
+          this.handleMouseUp(e);
+        }
+      });
+    },
+    drawNewEdge(stage) {
+      stage.on("touchstart", e => {
+        if (this.addEdgeOption) {
+          this.handleMouseDown(e);
+        }
+      });
     }
+  },
+  mounted() {
+    const transformerNode = this.$refs.stage.getNode();
+    const stage = transformerNode.getStage();
+    this.addNewVertexMobile(stage);
+    this.drawNewEdge(stage);
   }
 };
 </script>

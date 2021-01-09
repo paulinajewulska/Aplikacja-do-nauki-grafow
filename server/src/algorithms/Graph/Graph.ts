@@ -91,8 +91,8 @@ class Graph {
         return [...new Set(idList)].length;
     }
 
-    isNullGraph(): boolean {
-        return this.getGraphSize() === 0;
+    isNullGraph(): string {
+        return (this.getGraphSize() === 0 ? 'Jest to graf zerowy' : 'Nie jest to graf zerowy');
     }
 
     getDegree(index: Vertex['id']): number {
@@ -211,8 +211,13 @@ class Graph {
     }
 
     getKruskalMinimumSpanningTree() {
-        //     TODO: add checking if connected graph
-        //     TODO: add checking if not directed
+        if(this.isDirected) {
+            return 'Graf nie może być skierowany :(';
+        }
+
+        if(this.vertexes.some(v => v.edges.length === 0)) {
+            return 'Każdy węzeł musi być połączony chociaż jedną krawędzią';
+        }
 
         const separableCollections = [];
         const Queue = [];
@@ -252,8 +257,13 @@ class Graph {
     }
 
     getPrimMinimumSpanningTree() {
-        //     TODO: add checking if connected graph
-        //     TODO: add checking if not directed
+        if(this.isDirected) {
+            return 'Graf nie może być skierowany :(';
+        }
+
+        if(this.vertexes.some(v => v.edges.length === 0)) {
+            return 'Każdy węzeł musi być połączony chociaż jedną krawędzią';
+        }
 
         const minSpanningTree = [];
         const Queue = [];
@@ -387,7 +397,6 @@ class Graph {
             console.log(v.id);
             if (!this.findDFSCycle(v.id, v.id)) {
                 this.stack.pop();
-                console.log('NOPE\n');
             } else {
                 while (this.stack.length) {
                     const s = this.stack.pop();

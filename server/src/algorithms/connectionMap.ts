@@ -1,8 +1,9 @@
-import { Graph } from './Graph/Graph';
+import {Graph} from './Graph/Graph';
 
 interface lessonsMap {
     lesson: string;
     fun: (graph: Graph, index?: number) => any;
+    ans?: string,
     requiresIndex?: boolean;
 }
 
@@ -17,24 +18,29 @@ const connectionMap: Array<connectionMap> = [
         lessons: [
             {
                 lesson: 'co-to-graf',
-                fun: () => '🎉Yey, pierwsza lekcja za tobą! 👏🎉'
+                fun: () => '🎉Yey, pierwsza lekcja za tobą! 👏🎉',
+                ans: ''
             },
             {
                 lesson: 'rzad-grafu',
-                fun: graph => graph.getGraphOrder()
+                fun: graph => graph.getGraphOrder(),
+                ans: 'Rząd grafu wynosi'
             },
             {
                 lesson: 'rozmiar-grafu',
-                fun: graph => graph.getGraphSize()
+                fun: graph => graph.getGraphSize(),
+                ans: 'Rozmiar grafu wynosi'
             },
             {
                 lesson: 'graf-zerowy',
-                fun: graph => graph.isNullGraph()
+                fun: graph => graph.isNullGraph(),
+                ans: ''
             },
             {
                 lesson: 'stopien-wierzcholka',
                 fun: (graph: Graph, index: number) => graph.getDegree(index),
-                requiresIndex: true
+                requiresIndex: true,
+                ans: 'Stopień wybranego wierzchołka wynosi'
             }
         ]
     },
@@ -110,7 +116,7 @@ const getGraphFun = (category: string, lesson: string) => {
     if (!categoryLessons) throw new Error(`${category} does not exist`);
     const currentLesson = categoryLessons.lessons.find(l => l.lesson.toLowerCase() === lesson);
     if (!currentLesson) throw new Error(`${currentLesson} does not exist`);
-    return currentLesson.fun;
+    return {graphFun: currentLesson.fun, graphFunString: currentLesson.ans};
 };
 
-export { getGraphFun };
+export {getGraphFun};

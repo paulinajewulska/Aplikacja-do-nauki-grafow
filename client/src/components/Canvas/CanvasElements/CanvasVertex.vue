@@ -70,10 +70,6 @@ export default {
     ...mapActions("vertex", ["removeVertex"]),
     removeClickedVertex(e) {
       this.removeVertex({ id: e.target.id() });
-      // if (!this.vertexesNumber) {
-      //   this.toggleRemoveVertexOption();
-      // }
-      // TODO: fix fix fix
     },
     selectVertex(e) {
       this.saveSelectedVertex(e.target.id());

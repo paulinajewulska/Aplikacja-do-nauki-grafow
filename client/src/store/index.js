@@ -120,6 +120,10 @@ export default new Vuex.Store({
         id: v.id,
         edges: v.edges
       }));
+      if (!vertexes.length) {
+        commit("saveResult", "Aby uzyskać wynik utwórz graf.");
+        return;
+      }
       const category = rootState.categoryUrl;
       const lesson = rootState.lessonUrl;
       const isDirected = rootState.isDirected;

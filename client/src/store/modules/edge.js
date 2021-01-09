@@ -145,7 +145,9 @@ const actions = {
       "vertex/updateEdge",
       {
         id: edge.id,
-        weight: weight
+        weight: weight,
+        vertexFromID: edge.vertexFrom,
+        vertexToID: edge.vertexTo
       },
       { root: true }
     );

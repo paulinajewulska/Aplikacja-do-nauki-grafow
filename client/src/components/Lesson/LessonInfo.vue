@@ -17,8 +17,7 @@ export default {
   computed: {
     ...mapGetters({ lesson: "lesson" }),
     desc() {
-      console.log(this.lesson.description);
-      return this.lesson.description.replaceAll("\\n", " \r\n");
+      return this.lesson.description.replaceAll("\\n", "\n");
     }
   },
   methods: {
@@ -55,6 +54,7 @@ export default {
     border-radius: $border-radius;
     padding: 1rem;
     background-color: $white;
+    font-size: 0.8rem;
     white-space: pre-line;
   }
 }
