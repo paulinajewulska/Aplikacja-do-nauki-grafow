@@ -56,6 +56,9 @@ export default {
     background-color: $white;
     font-size: 0.8rem;
     white-space: pre-line;
+    max-height: calc((100vh - #{$margin-mobile * 2} - 1rem) / 2);
+    overflow: scroll;
+    overflow-x: auto;
   }
 }
 
