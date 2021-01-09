@@ -300,7 +300,40 @@ class Graph {
     }
 
     getDijkstraPath() {
-        return [];
+        //    TODO: fix
+        const startVertex = 0;
+        const adjList = this.getAdjacencyList();
+
+        const shortestPathVertexes = [];
+        const queue = this.vertexes;
+        const vertexNumber = this.getGraphOrder();
+        const costs = Array(vertexNumber).fill(Number.MAX_SAFE_INTEGER);
+        const predecessors = Array(vertexNumber).fill(-1);
+        costs[startVertex] = 0;
+
+        while (queue.length) {
+            // FIX: costs only in queue, not all
+            const min = costs.indexOf(Math.min(...costs));
+            const currentVertex = this.vertexes[min];
+            shortestPathVertexes.push(currentVertex.id);
+            const queueID = queue.indexOf(currentVertex);
+            queue.splice(queueID, 1);
+
+            for (const v of adjList[min]) {
+                if (queue.some(ver => ver.id === v)) {
+                    const edge = currentVertex.edges.find(e => e.vertexTo === v);
+                    if (edge) {
+                        if (costs[v] > (costs[min] + parseInt(String(edge.weight)))) {
+                            costs[v] = costs[min] + parseInt(String(edge.weight));
+                            predecessors[v] = min;
+                        }
+                    }
+                }
+            }
+        }
+
+        // TODO: add translation
+        return costs;
     }
 
     getVertexArrayIndex(id: number): number {
