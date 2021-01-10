@@ -1,9 +1,9 @@
-import {Graph} from './Graph/Graph';
+import { Graph } from './Graph/Graph';
 
 interface lessonsMap {
     lesson: string;
     fun: (graph: Graph, index?: number) => any;
-    ans?: string,
+    ans?: string;
     requiresIndex?: boolean;
 }
 
@@ -116,7 +116,7 @@ const getGraphFun = (category: string, lesson: string) => {
     if (!categoryLessons) throw new Error(`${category} does not exist`);
     const currentLesson = categoryLessons.lessons.find(l => l.lesson.toLowerCase() === lesson);
     if (!currentLesson) throw new Error(`${currentLesson} does not exist`);
-    return {graphFun: currentLesson.fun, graphFunString: currentLesson.ans};
+    return { graphFun: currentLesson.fun, graphFunString: currentLesson.ans };
 };
 
-export {getGraphFun};
+export { getGraphFun };

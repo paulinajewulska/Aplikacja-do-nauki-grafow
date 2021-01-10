@@ -1,7 +1,7 @@
-import {Request, Response} from 'express';
-import {getGraphFun} from '../algorithms/connectionMap';
-import {Graph} from '../algorithms/Graph/Graph';
-import {getAllCategories, getLessonsAll, getLessonsNameUrl} from '../services/lesson.service';
+import { Request, Response } from 'express';
+import { getGraphFun } from '../algorithms/connectionMap';
+import { Graph } from '../algorithms/Graph/Graph';
+import { getAllCategories, getLessonsAll, getLessonsNameUrl } from '../services/lesson.service';
 
 const getCategories = async (req: Request, res: Response) => {
     try {
@@ -34,9 +34,9 @@ const getLesson = async (req: Request, res: Response) => {
 };
 
 const getSolution = (req: Request, res: Response): void => {
-    const {vertexes, category, lesson, selectedVertex = null, isDirected = false} = req.body;
+    const { vertexes, category, lesson, selectedVertex = null, isDirected = false } = req.body;
 
-    const {graphFun, graphFunString} = getGraphFun(category, lesson);
+    const { graphFun, graphFunString } = getGraphFun(category, lesson);
     try {
         let result: number | boolean | string;
         if (selectedVertex != null) {
@@ -45,9 +45,9 @@ const getSolution = (req: Request, res: Response): void => {
             result = graphFun(new Graph(vertexes, isDirected));
         }
         result = graphFunString ? `${graphFunString} ${result}.` : result;
-        res.json({result});
+        res.json({ result });
     } catch (err) {
         res.status(400).send(err);
     }
 };
-export {getCategories, getLessonsInCategory, getLesson, getSolution};
+export { getCategories, getLessonsInCategory, getLesson, getSolution };

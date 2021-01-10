@@ -92,7 +92,7 @@ class Graph {
     }
 
     isNullGraph(): string {
-        return (this.getGraphSize() === 0 ? 'Jest to graf zerowy' : 'Nie jest to graf zerowy');
+        return this.getGraphSize() === 0 ? 'Jest to graf zerowy' : 'Nie jest to graf zerowy';
     }
 
     getDegree(index: Vertex['id']): number {
@@ -211,11 +211,11 @@ class Graph {
     }
 
     getKruskalMinimumSpanningTree() {
-        if(this.isDirected) {
+        if (this.isDirected) {
             return 'Graf nie może być skierowany :(';
         }
 
-        if(this.vertexes.some(v => v.edges.length === 0)) {
+        if (this.vertexes.some(v => v.edges.length === 0)) {
             return 'Każdy węzeł musi być połączony chociaż jedną krawędzią';
         }
 
@@ -257,11 +257,11 @@ class Graph {
     }
 
     getPrimMinimumSpanningTree() {
-        if(this.isDirected) {
+        if (this.isDirected) {
             return 'Graf nie może być skierowany :(';
         }
 
-        if(this.vertexes.some(v => v.edges.length === 0)) {
+        if (this.vertexes.some(v => v.edges.length === 0)) {
             return 'Każdy węzeł musi być połączony chociaż jedną krawędzią';
         }
 
@@ -300,10 +300,7 @@ class Graph {
     }
 
     getDijkstraPath() {
-        //    TODO: fix
         const startVertex = 0;
-        const adjList = this.getAdjacencyList();
-
         const shortestPathVertexes = [];
         const queue = this.vertexes;
         const vertexNumber = this.getGraphOrder();
@@ -312,20 +309,28 @@ class Graph {
         costs[startVertex] = 0;
 
         while (queue.length) {
-            // FIX: costs only in queue, not all
-            const min = costs.indexOf(Math.min(...costs));
-            const currentVertex = this.vertexes[min];
+            const adjList = this.getAdjacencyList();
+            const tmpCosts = queue.map((vertex, index) => [index, costs[vertex.id]]);
+            let minVertexIndex = tmpCosts[0][0];
+            let minCost = Number.MAX_SAFE_INTEGER;
+            tmpCosts.forEach(cost => {
+                if (cost[1] < minCost) {
+                    minCost = cost[1];
+                    minVertexIndex = cost[0];
+                }
+            });
+            const currentVertex = this.vertexes[minVertexIndex];
             shortestPathVertexes.push(currentVertex.id);
             const queueID = queue.indexOf(currentVertex);
             queue.splice(queueID, 1);
 
-            for (const v of adjList[min]) {
+            for (const v of adjList[minVertexIndex]) {
                 if (queue.some(ver => ver.id === v)) {
                     const edge = currentVertex.edges.find(e => e.vertexTo === v);
                     if (edge) {
-                        if (costs[v] > (costs[min] + parseInt(String(edge.weight)))) {
-                            costs[v] = costs[min] + parseInt(String(edge.weight));
-                            predecessors[v] = min;
+                        if (costs[v] > costs[currentVertex.id] + parseInt(String(edge.weight))) {
+                            costs[v] = costs[currentVertex.id] + parseInt(String(edge.weight));
+                            predecessors[v] = currentVertex.id;
                         }
                     }
                 }

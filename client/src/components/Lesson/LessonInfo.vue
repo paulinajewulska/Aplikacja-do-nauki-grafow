@@ -56,7 +56,7 @@ export default {
     background-color: $white;
     font-size: 0.8rem;
     white-space: pre-line;
-    max-height: calc((100vh - #{$margin-mobile * 2} - 1rem) / 2);
+    height: calc((100vh - #{$margin-mobile * 2} - 1rem) / 2);
     overflow: scroll;
     overflow-x: auto;
   }
@@ -67,6 +67,9 @@ export default {
     width: 30%;
     height: calc(100vh - 8rem);
     margin: 3rem 0 0;
+    &__card {
+      font-size: 0.9rem;
+    }
   }
 }
 </style>

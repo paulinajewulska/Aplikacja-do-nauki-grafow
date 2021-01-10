@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- TODO: add title -->
     <app-lesson-board></app-lesson-board>
   </div>
 </template>
