@@ -1,20 +1,20 @@
 <template>
   <div class="canvas">
     <app-canvas-board />
-    <app-canvas-header />
+    <app-canvas-menu />
     <app-canvas-result />
   </div>
 </template>
 
 <script>
-import CanvasHeader from "./CanvasMenu";
+import CanvasMenu from "./CanvasMenu";
 import CanvasBoard from "./CanvasBoard";
 import CanvasResult from "./CanvasResult";
 
 export default {
   name: "Canvas",
   components: {
-    AppCanvasHeader: CanvasHeader,
+    AppCanvasMenu: CanvasMenu,
     AppCanvasBoard: CanvasBoard,
     AppCanvasResult: CanvasResult
   }

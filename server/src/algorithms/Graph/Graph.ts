@@ -223,36 +223,39 @@ class Graph {
         const Queue = [];
         const minSpanningTree = [];
 
-        for (const v of this.vertexes) {
-            separableCollections.push([v.id]);
-            for (const e of v.edges) {
-                Queue.push(e);
-            }
-        }
-
-        Queue.sort((a, b) => a.weight - b.weight);
-
-        for (let i = 1; i < this.getGraphOrder(); ++i) {
-            let vertexFromID, vertexToID;
-            let edge;
-            do {
-                edge = Queue.shift();
-                const { vertexFrom, vertexTo } = edge;
-
-                for (let j = 0; j < separableCollections.length; ++j) {
-                    vertexFromID = separableCollections[j].some(e => e === vertexFrom) ? j : vertexFromID;
-                    vertexToID = separableCollections[j].some(e => e === vertexTo) ? j : vertexToID;
+        try {
+            for (const v of this.vertexes) {
+                separableCollections.push([v.id]);
+                for (const e of v.edges) {
+                    Queue.push(e);
                 }
-            } while (vertexFromID === vertexToID);
+            }
 
-            minSpanningTree.push(edge.id);
-            separableCollections[vertexFromID] = [
-                ...separableCollections[vertexFromID],
-                ...separableCollections[vertexToID]
-            ];
-            separableCollections.splice(vertexToID, 1);
+            Queue.sort((a, b) => a.weight - b.weight);
+
+            for (let i = 1; i < this.getGraphOrder(); ++i) {
+                let vertexFromID, vertexToID;
+                let edge;
+                do {
+                    edge = Queue.shift();
+                    const { vertexFrom, vertexTo } = edge;
+
+                    for (let j = 0; j < separableCollections.length; ++j) {
+                        vertexFromID = separableCollections[j].some(e => e === vertexFrom) ? j : vertexFromID;
+                        vertexToID = separableCollections[j].some(e => e === vertexTo) ? j : vertexToID;
+                    }
+                } while (vertexFromID === vertexToID);
+
+                minSpanningTree.push(edge.id);
+                separableCollections[vertexFromID] = [
+                    ...separableCollections[vertexFromID],
+                    ...separableCollections[vertexToID]
+                ];
+                separableCollections.splice(vertexToID, 1);
+            }
+        } catch (err) {
+            return 'Graf musi być spójny!';
         }
-
         return minSpanningTree;
     }
 
@@ -275,27 +278,30 @@ class Graph {
 
         visited[currentVertexId] = true;
 
-        for (let i = 1; i < vertexNumber; ++i) {
-            currentVertexId = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === currentVertexId));
+        try {
+            for (let i = 1; i < vertexNumber; ++i) {
+                currentVertexId = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === currentVertexId));
 
-            for (const e of this.vertexes[currentVertexId].edges) {
-                const id = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === e.vertexTo));
-                if (visited[id] === false) {
-                    Queue.push(e);
+                for (const e of this.vertexes[currentVertexId].edges) {
+                    const id = this.vertexes.indexOf(this.vertexes.find(ed => ed.id === e.vertexTo));
+                    if (visited[id] === false) {
+                        Queue.push(e);
+                    }
                 }
+
+                Queue.sort((a, b) => a.weight - b.weight);
+
+                do {
+                    currentEdge = Queue.shift();
+                    nextVertexId = this.vertexes.indexOf(this.vertexes.find(e => e.id === currentEdge.vertexTo));
+                } while (visited[nextVertexId] === true);
+                minSpanningTree.push(currentEdge.id);
+                visited[nextVertexId] = true;
+                currentVertexId = nextVertexId;
             }
-
-            Queue.sort((a, b) => a.weight - b.weight);
-
-            do {
-                currentEdge = Queue.shift();
-                nextVertexId = this.vertexes.indexOf(this.vertexes.find(e => e.id === currentEdge.vertexTo));
-            } while (visited[nextVertexId] === true);
-            minSpanningTree.push(currentEdge.id);
-            visited[nextVertexId] = true;
-            currentVertexId = nextVertexId;
+        } catch (err) {
+            return 'Graf musi być spójny!';
         }
-
         return minSpanningTree;
     }
 
@@ -336,8 +342,6 @@ class Graph {
                 }
             }
         }
-
-        // TODO: add translation
         return costs;
     }
 
@@ -431,17 +435,16 @@ class Graph {
         for (const v of this.vertexes) {
             this.visited = Array(vertexNumber).fill(false);
             this.stack.push(-1);
+            cycle.push([v.id]);
 
-            console.log(v.id);
             if (!this.findDFSCycle(v.id, v.id)) {
                 this.stack.pop();
             } else {
                 while (this.stack.length) {
                     const s = this.stack.pop();
                     if (s > -1) {
-                        console.log(s);
-                    } else {
-                        console.log('\n');
+                        const cycleIndex = cycle.findIndex(el => el[0] === v.id);
+                        cycle[cycleIndex].push(s);
                     }
                 }
             }
@@ -475,12 +478,12 @@ class Graph {
 
         for (const v of this.vertexes) {
             this.visited = Array(vertexNumber).fill(false);
-            console.log('\n');
             if (this.findDFSDirectedCycle(v.id, v.id)) {
-                console.log(v.id);
+                cycle.push([v.id]);
                 while (this.stack.length) {
                     const s = this.stack.pop();
-                    console.log(s);
+                    const cycleIndex = cycle.findIndex(el => el[0] === v.id);
+                    cycle[cycleIndex].push(s);
                 }
             }
         }

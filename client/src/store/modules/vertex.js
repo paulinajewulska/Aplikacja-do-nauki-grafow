@@ -22,7 +22,6 @@ class Vertex {
   }
 
   addGraphEdge(edge) {
-    console.log(edge);
     if (!edge) return;
     this._edges.push(
       new Edge(
@@ -106,8 +105,6 @@ const mutations = {
     if (!state.vertexes.some(v => v.id === payload._vertexFrom)) return;
     if (payload._vertexTo === payload._vertexFrom) return;
 
-    console.log(payload);
-
     const vertexFrom = state.vertexes.find(v => v.id === payload._vertexFrom);
     vertexFrom.addGraphEdge(payload);
 
@@ -156,7 +153,6 @@ const actions = {
     if (state.vertexes.some(v => v.id === payload.vertex.id)) {
       throw `Vertex with ${payload.vertex.id} id already exists.`;
     }
-    console.log("zzzzzzz");
     commit("addVertex", payload.vertex);
   },
   removeVertex: ({ commit, state }, payload) => {

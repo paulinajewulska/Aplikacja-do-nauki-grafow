@@ -3,8 +3,8 @@
     <div v-if="lesson.description" class="lesson__card">
       {{ desc }}
     </div>
-    <div v-if="lesson.pseudocode" class="lesson__card">
-      {{ lesson.pseudocode }}
+    <div v-if="lesson.pseudocode" class="lesson__card break-spaces">
+      {{ less }}
     </div>
   </div>
 </template>
@@ -18,6 +18,9 @@ export default {
     ...mapGetters({ lesson: "lesson" }),
     desc() {
       return this.lesson.description.replaceAll("\\n", "\n");
+    },
+    less() {
+      return this.lesson.pseudocode.replaceAll("\\t", "\t");
     }
   },
   methods: {
@@ -71,5 +74,9 @@ export default {
       font-size: 0.9rem;
     }
   }
+}
+
+.break-spaces {
+  white-space: break-spaces;
 }
 </style>
