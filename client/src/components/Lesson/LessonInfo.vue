@@ -59,8 +59,8 @@ export default {
     background-color: $white;
     font-size: 0.8rem;
     white-space: pre-line;
-    height: calc((100vh - #{$margin-mobile * 2} - 1rem) / 2);
     overflow: scroll;
+    height: fit-content;
     overflow-x: auto;
   }
 }
@@ -72,6 +72,7 @@ export default {
     margin: 3rem 0 0;
     &__card {
       font-size: 0.9rem;
+    height: calc((100vh - #{$margin-mobile * 2} - 1rem) / 2);
     }
   }
 }
